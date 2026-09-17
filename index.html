@@ -1,0 +1,1948 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>النظام الشامل لإدارة السجلات وخطة الاستعداد - الثانوية الثانية عشرة</title>
+    <!-- استدعاء مكتبة التصميم السريع Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .bg-theme-blue {
+            background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 50%, #7dd3fc 100%) !important;
+        }
+        .bg-theme-emerald {
+            background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 50%, #86efac 100%) !important;
+        }
+        .bg-theme-amber {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 50%, #fcd34d 100%) !important;
+        }
+        .backdrop-blur-md, .backdrop-blur-sm {
+            -webkit-backdrop-filter: blur(8px);
+            backdrop-filter: blur(8px);
+            transform: translateZ(0);
+        }
+        body {
+            overflow-x: hidden;
+        }
+        .overflow-x-auto {
+            width: 100%;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        /* تنسيقات الطباعة الرسمية المطابقة للنموذج المعتمد */
+        @media print {
+            body {
+                background: #fff !important;
+                padding: 0 !important;
+                margin: 0 !important;
+            }
+            .no-print {
+                display: none !important;
+            }
+            .print-container {
+                display: block !important;
+                position: relative;
+                width: 100%;
+                min-height: 100vh;
+                padding: 15mm 15mm 20mm 15mm !important;
+                box-sizing: border-box;
+                background: white !important;
+                border: 4px solid #5a524c !important; /* الإطار الفخم المحيط بالصفحة */
+            }
+            /* ترويسة الطباعة الثابتة في أعلى كل صفحة مطبوعة */
+            .print-header {
+                display: flex !important;
+                justify-content: space-between;
+                align-items: flex-start;
+                border-bottom: 2px solid #5a524c;
+                padding-bottom: 10px;
+                margin-bottom: 15px;
+            }
+            /* تذيل الطباعة الثابتة في أسفل كل صفحة مطبوعة */
+            .print-footer {
+                display: flex !important;
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                justify-content: space-between;
+                align-items: center;
+                background: #f4f1ea !important;
+                border-top: 2px solid #5a524c;
+                padding: 8px 15mm;
+                font-size: 11px;
+                font-weight: bold;
+                color: #333;
+            }
+            @page {
+                size: A4;
+                margin: 0mm;
+            }
+        }
+        .print-container, .print-header, .print-footer {
+            display: none;
+        }
+    </style>
+</head>
+<body id="pageBody" class="min-h-screen bg-theme-blue text-gray-800 font-sans p-2 sm:p-4 md:p-8 transition-all duration-300 max-w-full">
+
+    <!-- هيكل الطباعة الرسمي المخفي عن الشاشة والظاهر عند الطباعة فقط -->
+    <div class="print-container">
+        <!-- الترويسة الرسمية العلوية -->
+        <div class="print-header">
+            <div class="text-right">
+                <div class="font-bold text-xs">الثانوية الثانية عشرة</div>
+                <div class="text-[10px] text-gray-600">سجل الإدارة المدرسية والشواهد</div>
+                <div class="text-[9px] text-gray-500">12th Secondary School</div>
+            </div>
+            <div class="text-center">
+                <div class="font-bold text-xs text-emerald-800">وزارة التعليم</div>
+                <div class="text-[9px] text-gray-500">Ministry of Education</div>
+            </div>
+            <div class="text-left font-bold text-xs leading-tight">
+                <div>المملكة العربية السعودية</div>
+                <div>وزارة التعليم</div>
+                <div>الإدارة العامة للتعليم بمنطقة المدينة المنورة</div>
+            </div>
+        </div>
+
+        <!-- محتوى التقرير أو السجل المطبوع -->
+        <div id="printBodyContent" class="my-4">
+            <!-- سيتم حقن جدول البيانات أو التقرير هنا أثناء الطباعة -->
+        </div>
+
+        <!-- التذيل الرسمي السفلي -->
+        <div class="print-footer">
+            <div>المدرسة : الثانوية الثانية عشرة</div>
+            <div>إعداد المعلمة : نجلاء فريج البلوي</div>
+            <div>مديرة المدرسة : منى فاضل العتيبي</div>
+        </div>
+    </div>
+
+    <!-- نافذة تسجيل الدخول الرئيسية -->
+    <div id="loginModal" class="fixed inset-0 bg-black/70 flex justify-center items-center p-3 sm:p-4 z-50">
+        <div class="bg-white/90 backdrop-blur-md rounded-3xl p-5 sm:p-8 w-full max-w-md shadow-2xl text-center border border-white/40 mx-2">
+            <span class="text-4xl mb-3 inline-block">💻</span>
+            <h2 class="text-xl font-bold text-gray-900 mb-1">الثانوية الثانية عشرة</h2>
+            <p class="text-xs text-gray-600 mb-6">مديرة المدرسة / منى فاضل العتيبي | إعداد المعلمة / نجلاء فريج البلوي</p>
+            
+            <div class="space-y-4 text-right">
+                <div>
+                    <label class="block text-xs font-bold text-gray-700 mb-1">اختر صفة الدخول:</label>
+                    <select id="loginTypeSelect" onchange="toggleLoginFields()" class="w-full border border-gray-300 rounded-2xl px-3 sm:px-4 py-3 text-sm focus:outline-none focus:border-blue-500 bg-white/50 font-medium">
+                        <option value="admin">👑 الإدارة والوكيلات واللجان</option>
+                        <option value="teacher">👩‍🏫 دخول المعلمات (برقم سري خاص)</option>
+                    </select>
+                </div>
+
+                <div id="adminLoginBox" class="space-y-3">
+                    <div>
+                        <label class="block text-xs font-bold text-gray-700 mb-1">اختر القسم أو الوظيفة:</label>
+                        <select id="userRoleSelect" class="w-full border border-gray-300 rounded-2xl px-3 sm:px-4 py-3 text-sm focus:outline-none focus:border-blue-500 bg-white/50 font-medium">
+                            <option value="principal">👑 مديرة المدرسة</option>
+                            <option value="counselor">🤝 الموجهة الطلابية</option>
+                            <option value="schoolAffairs">🏫 وكيلة الشؤون المدرسية</option>
+                            <option value="eduAffairs">📚 وكيلة الشؤون التعليمية</option>
+                            <option value="studentAffairs">🎓 وكيلة شؤون الطالبات</option>
+                            <option value="evalSpecialist">🧭 أخصائية التقويم المدرسي</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-gray-700 mb-1">كلمة المرور:</label>
+                        <input type="password" id="rolePasswordInput" placeholder="أدخل كلمة المرور..." class="w-full border border-gray-300 rounded-2xl px-3 sm:px-4 py-3 text-sm focus:outline-none focus:border-blue-500 bg-white/50">
+                    </div>
+                </div>
+
+                <div id="teacherLoginBox" class="space-y-3 hidden">
+                    <div>
+                        <label class="block text-xs font-bold text-gray-700 mb-1">اختر اسم المعلمة:</label>
+                        <select id="teacherLoginSelect" class="w-full border border-gray-300 rounded-2xl px-3 sm:px-4 py-3 text-sm focus:outline-none focus:border-blue-500 bg-white/50 font-medium">
+                            <option value="">-- اختاري اسمك من القائمة --</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-gray-700 mb-1">الرقم السري الخاص بك (من 4 أرقام):</label>
+                        <input type="password" id="teacherPinInput" placeholder="أدخلي الرقم السري الممنوح لك..." class="w-full border border-gray-300 rounded-2xl px-3 sm:px-4 py-3 text-sm focus:outline-none focus:border-blue-500 bg-white/50">
+                    </div>
+                </div>
+
+                <div id="loginErrorMsg" class="text-xs text-red-600 font-bold text-center hidden">بيانات الدخول غير صحيحة، يرجى المراجعة.</div>
+                
+                <button onclick="executeLogin()" class="w-full mt-2 bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-2xl text-sm transition shadow-lg">
+                    دخول لوحة التحكم 🚀
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- لوحة مؤشرات الأداء السريعة -->
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 mb-4 no-print">
+        <div class="bg-white/60 backdrop-blur-md p-3 sm:p-4 rounded-2xl shadow-sm border border-white/40 flex items-center justify-between">
+            <div>
+                <p class="text-xs text-gray-600 font-medium">إجمالي البرامج المنفذة</p>
+                <h3 id="stat-programs" class="text-2xl font-bold text-blue-600">0</h3>
+            </div>
+            <span class="text-2xl bg-blue-100/50 p-2.5 rounded-xl">🎯</span>
+        </div>
+        <div class="bg-white/60 backdrop-blur-md p-3 sm:p-4 rounded-2xl shadow-sm border border-white/40 flex items-center justify-between">
+            <div>
+                <p class="text-xs text-gray-600 font-medium">إجمالي السجلات العامة</p>
+                <h3 id="stat-records" class="text-2xl font-bold text-emerald-600">0</h3>
+            </div>
+            <span class="text-2xl bg-emerald-100/50 p-2.5 rounded-xl">📂</span>
+        </div>
+        <div class="bg-white/60 backdrop-blur-md p-3 sm:p-4 rounded-2xl shadow-sm border border-white/40 flex items-center justify-between">
+            <div>
+                <p class="text-xs text-gray-600 font-medium">برامج قيد التنفيذ</p>
+                <h3 id="stat-active" class="text-2xl font-bold text-amber-600">0</h3>
+            </div>
+            <span class="text-2xl bg-amber-100/50 p-2.5 rounded-xl">⚡</span>
+        </div>
+    </div>
+
+    <!-- رأس الصفحة -->
+    <header class="mb-4 bg-white/60 backdrop-blur-md p-3 sm:p-6 rounded-2xl shadow-sm border-r-4 border-blue-600 flex flex-col lg:flex-row justify-between items-center gap-4 border border-white/40 no-print">
+        <div class="text-right w-full lg:w-auto">
+            <div id="schoolHeaderLabel" class="text-[11px] sm:text-xs text-blue-700 font-bold mb-1">وزارة التعليم | إدارة التعليم بالمدينة المنورة | الثانوية الثانية عشرة</div>
+            <h1 class="text-lg sm:text-2xl font-bold text-gray-900">النظام الشامل لإدارة المدرسة والسجلات</h1>
+            <p id="principalHeaderLabel" class="text-xs sm:text-sm text-indigo-800 mt-1 font-bold">مديرة المدرسة / منى فاضل العتيبي | إعداد المعلمة / نجلاء فريج البلوي</p>
+        </div>
+
+        <div class="flex flex-col items-center justify-center gap-2 text-center my-2 lg:my-0 w-full lg:w-auto">
+            <div class="bg-gradient-to-r from-amber-500 via-orange-500 to-red-500 p-[2px] rounded-xl shadow-md animate-pulse">
+                <div class="bg-white/80 px-3 sm:px-4 py-1.5 rounded-[10px] flex items-center gap-2">
+                    <span class="text-amber-600 text-sm">⏳</span>
+                    <span class="text-[11px] sm:text-xs font-black bg-gradient-to-r from-amber-700 to-red-700 bg-clip-text text-transparent">
+                        ينتهي الاشتراك في 1/7/2027
+                    </span>
+                    <span class="text-[10px] sm:text-xs bg-red-100 text-red-700 px-1.5 py-0.5 rounded font-bold">رسمي</span>
+                </div>
+            </div>
+            
+            <p class="text-red-700 font-bold bg-red-100/50 py-1.5 px-3 rounded-lg border border-red-200/50 shadow-sm text-[11px] sm:text-xs">
+                هذا الجهد استغرق وقتا وعناية ولا أحلل نقله تجاريا او نسخه من دون اذن
+            </p>
+            <a href="https://wa.me/966581015002" target="_blank" class="inline-flex items-center gap-1.5 bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-1.5 rounded-lg text-xs font-bold transition shadow-sm">
+                <span>💬</span>
+                <span>واتس: 0581015002</span>
+            </a>
+        </div>
+
+        <div class="flex flex-wrap items-center justify-end gap-2 w-full lg:w-auto no-print">
+            <button onclick="openGlobalSearchModal()" class="flex-1 sm:flex-none bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-2 rounded-xl text-xs sm:text-sm font-medium transition shadow-sm flex items-center justify-center gap-1">
+                <span>🔍</span>
+                <span>بحث شامل</span>
+            </button>
+            <button onclick="openAddProgramModal()" class="flex-1 sm:flex-none bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-2 rounded-xl text-xs sm:text-sm font-medium transition shadow-sm flex items-center justify-center gap-1">
+                <span>➕</span>
+                <span>إضافة برنامج</span>
+            </button>
+            <button onclick="openModal()" class="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white px-3.5 py-2 rounded-xl text-xs sm:text-sm font-medium transition shadow-sm">
+                + إضافة عنصر جديد
+            </button>
+        </div>
+    </header>
+
+    <!-- شريط التنقل الرئيسي والأيقونات -->
+    <div id="mainNavGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-2.5 sm:gap-3 mb-6 no-print">
+        <div class="relative group role-restricted" data-allowed="principal">
+            <button onclick="toggleDropdown('dropdownMenu')" class="w-full p-2.5 sm:p-3 rounded-xl text-center transition bg-indigo-600 hover:bg-indigo-700 text-white shadow-md flex flex-col items-center justify-center gap-1">
+                <span class="text-lg sm:text-xl">👑</span>
+                <span class="text-[11px] sm:text-xs font-bold">سجلات المديرة ▾</span>
+            </button>
+            <div id="dropdownMenu" class="hidden absolute right-0 mt-2 w-60 sm:w-72 bg-white/95 backdrop-blur-md rounded-2xl shadow-xl border border-white/40 z-50 max-h-80 overflow-y-auto p-2 text-right">
+                <div class="flex justify-between items-center p-2 border-b border-indigo-100 bg-indigo-100/50 rounded-xl mb-1">
+                    <span class="text-xs font-bold text-indigo-800">سجلات وملفات مديرة المدرسة</span>
+                    <button onclick="openSectionModal('principal')" class="bg-indigo-600 hover:bg-indigo-700 text-white px-2 py-1 rounded-lg text-xs font-medium transition shadow-sm">➕ إضافة</button>
+                </div>
+                <div onclick="switchSection('principal')" class="p-2 hover:bg-indigo-100/50 rounded-xl text-xs cursor-pointer font-bold text-indigo-800">📂 فتح كافة سجلات المديرة بالأسفل</div>
+            </div>
+        </div>
+
+        <div class="relative group role-restricted" data-allowed="principal">
+            <button onclick="toggleDropdown('dropdownTeacherPerf')" class="w-full p-2.5 sm:p-3 rounded-xl text-center transition bg-orange-600 hover:bg-orange-700 text-white shadow-md flex flex-col items-center justify-center gap-1">
+                <span class="text-lg sm:text-xl">⭐</span>
+                <span class="text-[11px] sm:text-xs font-bold">الأداء الوظيفي ▾</span>
+            </button>
+            <div id="dropdownTeacherPerf" class="hidden absolute right-0 mt-2 w-60 sm:w-72 bg-white/95 backdrop-blur-md rounded-2xl shadow-xl border border-white/40 z-50 max-h-80 overflow-y-auto p-2 text-right">
+                <div class="flex justify-between items-center p-2 border-b border-orange-100 bg-orange-100/50 rounded-xl mb-1">
+                    <span class="text-xs font-bold text-orange-800">متابعة الأداء والزيارات</span>
+                    <button onclick="openSectionModal('teacherPerf')" class="bg-orange-600 hover:bg-orange-700 text-white px-2 py-1 rounded-lg text-xs font-medium transition shadow-sm">➕ إضافة</button>
+                </div>
+                <div onclick="switchSection('teacherPerf')" class="p-2 hover:bg-orange-100/50 rounded-xl text-xs cursor-pointer font-bold text-orange-800">⭐ تقييم المعلمات والفهرس</div>
+                <div onclick="switchSection('teacherPinsTable')" class="p-2 hover:bg-orange-100/50 rounded-xl text-xs cursor-pointer font-bold text-orange-800">🔑 كشف الأرقام السرية للمعلمات</div>
+                <div onclick="switchSection('teacherPerfRecords')" class="p-2 hover:bg-orange-100/50 rounded-xl text-xs cursor-pointer font-bold text-orange-800">📋 سجلات الزيارات والإنماء المهني</div>
+            </div>
+        </div>
+
+        <div class="relative group role-restricted" data-allowed="principal,schoolAffairs">
+            <button onclick="toggleDropdown('dropdownSchoolAffairs')" class="w-full p-2.5 sm:p-3 rounded-xl text-center transition bg-teal-600 hover:bg-teal-700 text-white shadow-md flex flex-col items-center justify-center gap-1">
+                <span class="text-lg sm:text-xl">🏫</span>
+                <span class="text-[11px] sm:text-xs font-bold">الشؤون المدرسية ▾</span>
+            </button>
+            <div id="dropdownSchoolAffairs" class="hidden absolute right-0 mt-2 w-60 sm:w-72 bg-white/95 backdrop-blur-md rounded-2xl shadow-xl border border-white/40 z-50 max-h-80 overflow-y-auto p-2 text-right">
+                <div class="flex justify-between items-center p-2 border-b border-teal-100 bg-teal-100/50 rounded-xl mb-1">
+                    <span class="text-xs font-bold text-teal-800">سجلات الشؤون المدرسية</span>
+                    <button onclick="openSectionModal('schoolAffairs')" class="bg-teal-600 hover:bg-teal-700 text-white px-2 py-1 rounded-lg text-xs font-medium transition shadow-sm">➕ إضافة</button>
+                </div>
+                <div onclick="switchSection('schoolAffairs')" class="p-2 hover:bg-teal-100/50 rounded-xl text-xs cursor-pointer font-bold text-teal-800">📂 فتح كافة سجلات الشؤون المدرسية</div>
+            </div>
+        </div>
+
+        <div class="relative group role-restricted" data-allowed="principal,eduAffairs">
+            <button onclick="toggleDropdown('dropdownEduAffairs')" class="w-full p-2.5 sm:p-3 rounded-xl text-center transition bg-purple-600 hover:bg-purple-700 text-white shadow-md flex flex-col items-center justify-center gap-1">
+                <span class="text-lg sm:text-xl">📚</span>
+                <span class="text-[11px] sm:text-xs font-bold">الشؤون التعليمية ▾</span>
+            </button>
+            <div id="dropdownEduAffairs" class="hidden absolute right-0 mt-2 w-60 sm:w-72 bg-white/95 backdrop-blur-md rounded-2xl shadow-xl border border-white/40 z-50 max-h-80 overflow-y-auto p-2 text-right">
+                <div class="flex justify-between items-center p-2 border-b border-purple-100 bg-purple-100/50 rounded-xl mb-1">
+                    <span class="text-xs font-bold text-purple-800">سجلات الشؤون التعليمية</span>
+                    <button onclick="openSectionModal('eduAffairs')" class="bg-purple-600 hover:bg-purple-700 text-white px-2 py-1 rounded-lg text-xs font-medium transition shadow-sm">➕ إضافة</button>
+                </div>
+                <div onclick="switchSection('eduAffairs')" class="p-2 hover:bg-purple-100/50 rounded-xl text-xs cursor-pointer font-bold text-purple-800">📂 فتح كافة سجلات الشؤون التعليمية</div>
+            </div>
+        </div>
+
+        <div class="relative group role-restricted" data-allowed="principal,counselor">
+            <button onclick="toggleDropdown('dropdownCounselor')" class="w-full p-2.5 sm:p-3 rounded-xl text-center transition bg-amber-600 hover:bg-amber-700 text-white shadow-md flex flex-col items-center justify-center gap-1">
+                <span class="text-lg sm:text-xl">🤝</span>
+                <span class="text-[11px] sm:text-xs font-bold">التوجيه الطلابي ▾</span>
+            </button>
+            <div id="dropdownCounselor" class="hidden absolute right-0 mt-2 w-60 sm:w-72 bg-white/95 backdrop-blur-md rounded-2xl shadow-xl border border-white/40 z-50 max-h-80 overflow-y-auto p-2 text-right">
+                <div class="flex justify-between items-center p-2 border-b border-amber-100 bg-amber-100/50 rounded-xl mb-1">
+                    <span class="text-xs font-bold text-amber-800">سجلات التوجيه الطلابي</span>
+                    <button onclick="openSectionModal('counselor')" class="bg-amber-600 hover:bg-amber-700 text-white px-2 py-1 rounded-lg text-xs font-medium transition shadow-sm">➕ إضافة</button>
+                </div>
+                <div onclick="switchSection('counselor')" class="p-2 hover:bg-amber-100/50 rounded-xl text-xs cursor-pointer font-bold text-amber-800">📂 فتح كافة سجلات التوجيه الطلابي</div>
+            </div>
+        </div>
+
+        <div class="relative group role-restricted" data-allowed="principal,studentAffairs">
+            <button onclick="toggleDropdown('dropdownStudentAffairs')" class="w-full p-2.5 sm:p-3 rounded-xl text-center transition bg-rose-600 hover:bg-rose-700 text-white shadow-md flex flex-col items-center justify-center gap-1">
+                <span class="text-lg sm:text-xl">🎓</span>
+                <span class="text-[11px] sm:text-xs font-bold">شؤون الطالبات ▾</span>
+            </button>
+            <div id="dropdownStudentAffairs" class="hidden absolute right-0 mt-2 w-60 sm:w-72 bg-white/95 backdrop-blur-md rounded-2xl shadow-xl border border-white/40 z-50 max-h-80 overflow-y-auto p-2 text-right">
+                <div class="flex justify-between items-center p-2 border-b border-rose-100 bg-rose-100/50 rounded-xl mb-1">
+                    <span class="text-xs font-bold text-rose-800">سجلات شؤون الطالبات</span>
+                    <button onclick="openSectionModal('studentAffairs')" class="bg-rose-600 hover:bg-rose-700 text-white px-2 py-1 rounded-lg text-xs font-medium transition shadow-sm">➕ إضافة</button>
+                </div>
+                <div onclick="switchSection('studentAffairs')" class="p-2 hover:bg-rose-100/50 rounded-xl text-xs cursor-pointer font-bold text-rose-800">📂 فتح كافة سجلات شؤون الطالبات</div>
+            </div>
+        </div>
+
+        <div class="relative group role-restricted" data-allowed="principal,evalSpecialist">
+            <button onclick="toggleDropdown('dropdownEvalSpecialist')" class="w-full p-2.5 sm:p-3 rounded-xl text-center transition bg-cyan-600 hover:bg-cyan-700 text-white shadow-md flex flex-col items-center justify-center gap-1">
+                <span class="text-lg sm:text-xl">🧭</span>
+                <span class="text-[11px] sm:text-xs font-bold">التقويم المدرسي ▾</span>
+            </button>
+            <div id="dropdownEvalSpecialist" class="hidden absolute right-0 mt-2 w-60 sm:w-72 bg-white/95 backdrop-blur-md rounded-2xl shadow-xl border border-white/40 z-50 max-h-80 overflow-y-auto p-2 text-right">
+                <div class="flex justify-between items-center p-2 border-b border-cyan-100 bg-cyan-100/50 rounded-xl mb-1">
+                    <span class="text-xs font-bold text-cyan-800">سجلات التقويم المدرسي</span>
+                    <button onclick="openSectionModal('evalSpecialist')" class="bg-cyan-600 hover:bg-cyan-700 text-white px-2 py-1 rounded-lg text-xs font-medium transition shadow-sm">➕ إضافة</button>
+                </div>
+                <div onclick="switchSection('evalSpecialist')" class="p-2 hover:bg-cyan-100/50 rounded-xl text-xs cursor-pointer font-bold text-cyan-800">📂 فتح كافة سجلات التقويم المدرسي</div>
+            </div>
+        </div>
+
+        <!-- الصف الثاني للأزرار -->
+        <button onclick="switchSection('professionalDev')" id="tab-professionalDev" class="p-2.5 sm:p-3 rounded-xl text-center transition bg-white/70 hover:bg-white text-indigo-900 shadow-sm flex flex-col items-center justify-center gap-1 role-restricted border border-white/50 font-bold" data-allowed="principal">
+            <span class="text-lg sm:text-xl">💡</span>
+            <span class="text-[11px] sm:text-xs">التطوير المهني</span>
+        </button>
+        <button onclick="switchSection('records')" id="tab-records" class="p-2.5 sm:p-3 rounded-xl text-center transition bg-emerald-600 hover:bg-emerald-700 text-white shadow-md flex flex-col items-center justify-center gap-1 role-restricted font-bold" data-allowed="principal">
+            <span class="text-lg sm:text-xl">📂</span>
+            <span class="text-[11px] sm:text-xs">السجلات العامة</span>
+        </button>
+        <button onclick="switchSection('programs')" id="tab-programs" class="p-2.5 sm:p-3 rounded-xl text-center transition bg-blue-600 hover:bg-blue-700 text-white shadow-md flex flex-col items-center justify-center gap-1 role-restricted font-bold" data-allowed="principal">
+            <span class="text-lg sm:text-xl">🎯</span>
+            <span class="text-[11px] sm:text-xs">البرامج المنفذة</span>
+        </button>
+        <button onclick="switchSection('general')" id="tab-general" class="p-2.5 sm:p-3 rounded-xl text-center transition bg-white/70 hover:bg-white text-gray-800 shadow-sm flex flex-col items-center justify-center gap-1 role-restricted border border-white/50 font-bold" data-allowed="principal">
+            <span class="text-lg sm:text-xl">📋</span>
+            <span class="text-[11px] sm:text-xs">الخطة العامة</span>
+        </button>
+        <button onclick="switchSection('admission')" id="tab-admission" class="p-2.5 sm:p-3 rounded-xl text-center transition bg-white/70 hover:bg-white text-gray-800 shadow-sm flex flex-col items-center justify-center gap-1 role-restricted border border-white/50 font-bold" data-allowed="principal,schoolAffairs">
+            <span class="text-lg sm:text-xl">📝</span>
+            <span class="text-[11px] sm:text-xs">القبول والتسجيل</span>
+        </button>
+        <button onclick="switchSection('schedule')" id="tab-schedule" class="p-2.5 sm:p-3 rounded-xl text-center transition bg-white/70 hover:bg-white text-gray-800 shadow-sm flex flex-col items-center justify-center gap-1 role-restricted border border-white/50 font-bold" data-allowed="principal,eduAffairs">
+            <span class="text-lg sm:text-xl">📅</span>
+            <span class="text-[11px] sm:text-xs">الجدول المدرسي</span>
+        </button>
+        <button onclick="switchSection('books')" id="tab-books" class="p-2.5 sm:p-3 rounded-xl text-center transition bg-white/70 hover:bg-white text-gray-800 shadow-sm flex flex-col items-center justify-center gap-1 role-restricted border border-white/50 font-bold" data-allowed="principal,eduAffairs">
+            <span class="text-lg sm:text-xl">📚</span>
+            <span class="text-[11px] sm:text-xs">الكتب المدرسية</span>
+        </button>
+        <button onclick="switchSection('maintenance')" id="tab-maintenance" class="p-2.5 sm:p-3 rounded-xl text-center transition bg-white/70 hover:bg-white text-gray-800 shadow-sm flex flex-col items-center justify-center gap-1 role-restricted border border-white/50 font-bold" data-allowed="principal,schoolAffairs">
+            <span class="text-lg sm:text-xl">🛠️</span>
+            <span class="text-[11px] sm:text-xs">الصيانة والنظافة</span>
+        </button>
+        <button onclick="switchSection('transport')" id="tab-transport" class="p-2.5 sm:p-3 rounded-xl text-center transition bg-white/70 hover:bg-white text-gray-800 shadow-sm flex flex-col items-center justify-center gap-1 role-restricted border border-white/50 font-bold" data-allowed="principal,schoolAffairs">
+            <span class="text-lg sm:text-xl">🚌</span>
+            <span class="text-[11px] sm:text-xs">النقل المدرسي</span>
+        </button>
+        <button onclick="switchSection('safety')" id="tab-safety" class="p-2.5 sm:p-3 rounded-xl text-center transition bg-white/70 hover:bg-white text-gray-800 shadow-sm flex flex-col items-center justify-center gap-1 role-restricted border border-white/50 font-bold" data-allowed="principal,schoolAffairs">
+            <span class="text-lg sm:text-xl">🧯</span>
+            <span class="text-[11px] sm:text-xs">الأمن والسلامة</span>
+        </button>
+        <button onclick="switchSection('environment')" id="tab-environment" class="p-2.5 sm:p-3 rounded-xl text-center transition bg-white/70 hover:bg-white text-gray-800 shadow-sm flex flex-col items-center justify-center gap-1 role-restricted border border-white/50 font-bold" data-allowed="principal,schoolAffairs">
+            <span class="text-lg sm:text-xl">🏫</span>
+            <span class="text-[11px] sm:text-xs">البيئة المدرسية</span>
+        </button>
+    </div>
+
+    <!-- محتوى الجداول -->
+    <div class="bg-white/60 backdrop-blur-md rounded-2xl shadow-sm p-3 sm:p-6 mb-6 overflow-x-auto w-full border border-white/40 no-print">
+        <div id="tableContainer" class="w-full"></div>
+    </div>
+
+    <!-- شريط التحكم السفلي -->
+    <div class="mb-4 bg-white/60 backdrop-blur-md p-3 rounded-2xl shadow-sm border border-white/40 flex flex-wrap justify-between items-center gap-3 no-print">
+        <div class="flex items-center gap-2 flex-wrap w-full sm:w-auto justify-center sm:justify-start">
+            <span class="text-xs font-bold text-gray-700">🎨 الثيمات:</span>
+            <button onclick="changeBackground('blue')" id="bgBtn-blue" class="px-3 py-1.5 rounded-xl text-xs font-medium bg-blue-600 text-white transition shadow-sm">أزرق</button>
+            <button onclick="changeBackground('emerald')" id="bgBtn-emerald" class="px-3 py-1.5 rounded-xl text-xs font-medium bg-white/40 text-gray-700 hover:bg-white/70 transition border border-white/30">أخضر</button>
+            <button onclick="changeBackground('amber')" id="bgBtn-amber" class="px-3 py-1.5 rounded-xl text-xs font-medium bg-white/40 text-gray-700 hover:bg-white/70 transition border border-white/30">ذهبي</button>
+        </div>
+
+        <div class="text-center text-[11px] sm:text-xs text-gray-700 font-medium my-1 w-full sm:w-auto">
+            <span>المستخدم الحالي: <strong id="loggedUserLabel" class="text-blue-700">مديرة المدرسة</strong></span>
+            <button onclick="logoutSession()" class="mr-3 text-red-700 underline font-bold hover:text-red-900">تسجيل الخروج</button>
+        </div>
+
+        <div class="flex items-center justify-center gap-2 flex-wrap w-full sm:w-auto">
+            <button onclick="manualSyncFromCloud()" class="flex-1 sm:flex-none bg-orange-600 hover:bg-orange-700 text-white px-3 py-1.5 rounded-xl text-xs font-medium transition shadow-sm" title="جلب التحديثات الجديدة فوراً من السحابة">🔄 تحديث البيانات</button>
+            <button onclick="printReport()" class="flex-1 sm:flex-none bg-sky-600 hover:bg-sky-700 text-white px-3 py-1.5 rounded-xl text-xs font-medium transition shadow-sm">🖨️ طباعة التقرير بالترويسة</button>
+            <button onclick="saveDataLocally()" class="flex-1 sm:flex-none bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-1.5 rounded-xl text-xs font-medium transition shadow-sm">💾 حفظ</button>
+            <button onclick="exportDataFile()" class="flex-1 sm:flex-none bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-1.5 rounded-xl text-xs font-medium transition shadow-sm">📥 تنزيل نسخة</button>
+            <label class="cursor-pointer flex-1 sm:flex-none text-center bg-amber-600 hover:bg-amber-700 text-white px-3 py-1.5 rounded-xl text-xs font-medium transition shadow-sm flex items-center justify-center gap-1">
+                <span>📂 استعادة نسخة</span>
+                <input type="file" id="importFile" accept=".json" class="hidden" onchange="importDataFile(event)">
+            </label>
+            <button onclick="resetDefaultData()" class="w-full sm:w-auto bg-red-600 hover:bg-red-700 text-white px-3 py-1.5 rounded-xl text-xs font-medium transition shadow-sm">🔄 ضبط مصنع</button>
+        </div>
+    </div>
+
+    <!-- نوافذ المنبثقة (Modal) -->
+    <div id="globalSearchModal" class="fixed inset-0 bg-black/70 backdrop-blur-sm hidden justify-center items-center p-3 sm:p-4 z-50">
+        <div class="bg-white/90 backdrop-blur-md rounded-2xl p-4 sm:p-6 w-full max-w-2xl shadow-2xl max-h-[85vh] flex flex-col mx-2 border border-white/40">
+            <div class="flex justify-between items-center mb-4 border-b border-gray-200/50 pb-3">
+                <h3 class="text-base sm:text-lg font-bold text-gray-900">🔍 البحث الشامل في كامل الداشبورد</h3>
+                <button onclick="closeGlobalSearchModal()" class="bg-white/60 hover:bg-white text-gray-700 rounded-full w-8 h-8 flex items-center justify-center font-bold border border-white/40">✕</button>
+            </div>
+            <div class="mb-4">
+                <input type="text" id="globalSearchInput" oninput="performGlobalSearch()" placeholder="اكتبي للبحث عن أي سجل، برنامج، لجنة أو مهمة..." class="w-full border-2 border-indigo-200/60 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-indigo-600 bg-white/50 font-medium">
+            </div>
+            <div id="globalSearchResults" class="flex-1 overflow-y-auto space-y-2.5 pr-1">
+                <p class="text-center text-xs text-gray-500 py-8">ابداي الكتابة في حقل البحث بالأعلى للعثور على العناصر مباشرة...</p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-gray-200/50 flex justify-end">
+                <button onclick="closeGlobalSearchModal()" class="bg-gray-600 hover:bg-gray-700 text-white px-5 py-2 rounded-xl text-xs font-medium">إغلاق</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="viewImageModal" class="fixed inset-0 bg-black/70 backdrop-blur-sm hidden justify-center items-center p-3 sm:p-4 z-50">
+        <div class="bg-white/90 backdrop-blur-md rounded-2xl p-4 sm:p-6 w-full max-w-3xl shadow-2xl max-h-[90vh] overflow-y-auto mx-2 border border-white/40">
+            <div class="flex justify-between items-center mb-4 border-b border-gray-200/50 pb-2">
+                <div>
+                    <h3 class="text-base sm:text-lg font-bold text-gray-900">🖼️ معرض الشواهد المرفقة وتواريخ توثيقها</h3>
+                    <p class="text-[11px] sm:text-xs text-indigo-700 mt-0.5">💡 إرشادات: انقري مرتين (دبل كليك) على أي صورة لفتحها بكامل الشاشة.</p>
+                </div>
+                <button onclick="closeViewImageModal()" class="bg-white/60 hover:bg-white text-gray-700 rounded-full w-8 h-8 flex items-center justify-center font-bold border border-white/40">✕</button>
+            </div>
+            <div id="modalImagesGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4"></div>
+            <div class="mt-6 flex justify-end">
+                <button onclick="closeViewImageModal()" class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-xl text-sm font-medium">إغلاق المعاينة</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="teacherEvidenceModal" class="fixed inset-0 bg-black/50 backdrop-blur-sm hidden justify-center items-center p-3 sm:p-4 z-50">
+        <div class="bg-white/90 backdrop-blur-md rounded-2xl p-4 sm:p-6 w-full max-w-lg shadow-xl max-h-[90vh] overflow-y-auto mx-2 border border-white/40">
+            <h3 id="teacherModalTitle" class="text-lg font-bold text-orange-900 mb-2">📸 رفع شواهد عنصر التقييم</h3>
+            <p id="teacherModalCriteriaDesc" class="text-xs text-gray-600 mb-4 bg-orange-50 p-2.5 rounded-xl border border-orange-200"></p>
+            <form onsubmit="saveTeacherEvidence(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-medium text-gray-700 mb-2">اختاري صور الشواهد الخاصة بك</label>
+                    <div class="flex flex-wrap items-center gap-3">
+                        <label class="cursor-pointer bg-white hover:bg-orange-50 text-orange-700 border border-orange-300 px-4 py-2.5 rounded-xl text-xs font-medium transition flex items-center gap-2 shadow-sm">
+                            <span>📁 اختاري صور الشواهد</span>
+                            <input type="file" id="teacherImageInput" accept="image/*" multiple class="hidden" onchange="previewTeacherImages(event)">
+                        </label>
+                        <span id="teacherFileName" class="text-xs text-gray-600 truncate max-w-[200px]">لم يتم اختيار صور</span>
+                    </div>
+                    <div id="teacherImagePreviewContainer" class="mt-3 hidden grid grid-cols-3 gap-2 bg-white/40 p-2 rounded-xl border border-gray-200/50"></div>
+                </div>
+                <div class="flex justify-end gap-3 pt-4 border-t border-gray-200/50">
+                    <button type="button" onclick="closeTeacherEvidenceModal()" class="px-4 py-2 rounded-xl text-xs text-gray-600 hover:bg-white/60 transition">إلغاء</button>
+                    <button type="submit" id="saveTeacherEvBtn" class="px-5 py-2 rounded-xl text-xs bg-orange-600 text-white hover:bg-orange-700 transition">حفظ الشاهد سحابياً</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="itemModal" class="fixed inset-0 bg-black/50 backdrop-blur-sm hidden justify-center items-center p-3 sm:p-4 z-50">
+        <div class="bg-white/90 backdrop-blur-md rounded-2xl p-4 sm:p-6 w-full max-w-lg shadow-xl max-h-[90vh] overflow-y-auto mx-2 border border-white/40">
+            <h3 id="modalTitle" class="text-lg sm:text-xl font-bold text-blue-900 mb-4">تفاصيل السجل والشواهد</h3>
+            <form onsubmit="saveItem(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs sm:text-sm font-medium text-gray-700 mb-1">عنوان أو اسم السجل/المهام</label>
+                    <input type="text" id="inputTitle" required class="w-full border border-gray-200/60 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-blue-500 bg-white/50">
+                </div>
+                <div>
+                    <label class="block text-xs sm:text-sm font-medium text-gray-700 mb-1">التصنيف أو القسم</label>
+                    <input type="text" id="inputCategory" class="w-full border border-gray-200/60 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-blue-500 bg-white/50">
+                </div>
+                <div>
+                    <label class="block text-xs sm:text-sm font-medium text-gray-700 mb-1">تاريخ التنفيذ</label>
+                    <input type="date" id="inputDate" class="w-full border border-gray-200/60 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-blue-500 bg-white/50">
+                </div>
+                <div class="border-t border-gray-200/50 pt-4">
+                    <label class="block text-xs sm:text-sm font-medium text-gray-700 mb-2">📸 شواهد السجل</label>
+                    <div class="flex flex-wrap items-center gap-3">
+                        <label class="cursor-pointer bg-white/60 hover:bg-white text-indigo-700 border border-indigo-200/60 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-medium transition flex items-center gap-2 shadow-sm">
+                            <span>📁 اختاري صور/تقارير</span>
+                            <input type="file" id="imageInput" accept="image/*" multiple class="hidden" onchange="previewImages(event)">
+                        </label>
+                        <span id="fileName" class="text-xs text-gray-600 truncate max-w-[200px]">لم يتم اختيار صور</span>
+                    </div>
+                    <div id="imagePreviewContainer" class="mt-3 hidden grid grid-cols-3 gap-2 bg-white/40 p-2 rounded-xl border border-gray-200/50"></div>
+                </div>
+                <div class="flex justify-end gap-3 pt-4 border-t border-gray-200/50">
+                    <button type="button" onclick="closeModal()" class="px-4 py-2 rounded-xl text-xs sm:text-sm text-gray-600 hover:bg-white/60 transition">إلغاء</button>
+                    <button type="submit" id="saveBtnSubmit" class="px-5 py-2 rounded-xl text-xs sm:text-sm bg-blue-600 text-white hover:bg-blue-700 transition">حفظ التغييرات</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="programModal" class="fixed inset-0 bg-black/50 backdrop-blur-sm hidden justify-center items-center p-3 sm:p-4 z-50">
+        <div class="bg-white/90 backdrop-blur-md rounded-2xl p-4 sm:p-6 w-full max-w-lg shadow-xl max-h-[90vh] overflow-y-auto mx-2 border border-white/40">
+            <h3 class="text-lg sm:text-xl font-bold text-emerald-900 mb-4">➕ إضافة برنامج تعليمي جديد</h3>
+            <form onsubmit="saveNewProgram(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs sm:text-sm font-medium text-gray-700 mb-1">اسم البرنامج التعليمي</label>
+                    <input type="text" id="progTitle" required placeholder="مثال: برنامج الدعم الفردي" class="w-full border border-gray-200/60 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-emerald-500 bg-white/50">
+                </div>
+                <div>
+                    <label class="block text-xs sm:text-sm font-medium text-gray-700 mb-1">الفئة المستهدفة / المجال</label>
+                    <input type="text" id="progCategory" required placeholder="مثال: التحصيل الدراسي" class="w-full border border-gray-200/60 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-emerald-500 bg-white/50">
+                </div>
+                <div>
+                    <label class="block text-xs sm:text-sm font-medium text-gray-700 mb-1">تاريخ التنفيذ</label>
+                    <input type="date" id="progDate" class="w-full border border-gray-200/60 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-emerald-500 bg-white/50">
+                </div>
+                <div>
+                    <label class="block text-xs sm:text-sm font-medium text-gray-700 mb-1">حالة البرنامج</label>
+                    <select id="progStatus" class="w-full border border-gray-200/60 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-emerald-500 bg-white/50">
+                        <option value="قيد التنفيذ">قيد التنفيذ</option>
+                        <option value="مخطط له">مخطط له</option>
+                        <option value="مكتمل ومنجز">مكتمل ومنجز</option>
+                    </select>
+                </div>
+                <div class="border-t border-gray-200/50 pt-4">
+                    <label class="block text-xs sm:text-sm font-medium text-gray-700 mb-2">📸 شواهد البرنامج</label>
+                    <div class="flex flex-wrap items-center gap-3">
+                        <label class="cursor-pointer bg-white/60 hover:bg-white text-emerald-700 border border-emerald-200/60 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-medium transition flex items-center gap-2 shadow-sm">
+                            <span>📁 اختاري صور/تقارير</span>
+                            <input type="file" id="progImageInput" accept="image/*" multiple class="hidden" onchange="previewProgImages(event)">
+                        </label>
+                        <span id="progFileName" class="text-xs text-gray-600 truncate max-w-[200px]">لم يتم اختيار صور</span>
+                    </div>
+                    <div id="progImagePreviewContainer" class="mt-3 hidden grid grid-cols-3 gap-2 bg-white/40 p-2 rounded-xl border border-gray-200/50"></div>
+                </div>
+                <div class="flex justify-end gap-3 pt-4 border-t border-gray-200/50">
+                    <button type="button" onclick="closeAddProgramModal()" class="px-4 py-2 rounded-xl text-xs sm:text-sm text-gray-600 hover:bg-white/60 transition">إلغاء</button>
+                    <button type="submit" id="saveProgBtnSubmit" class="px-5 py-2 rounded-xl text-xs sm:text-sm bg-emerald-600 text-white hover:bg-emerald-700 transition">حفظ البرنامج</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- السكريبت البرمجي -->
+    <script>
+        const schoolConfig = {
+            schoolName: "الثانوية الثانية عشرة",
+            developerName: "مديرة المدرسة / منى فاضل العتيبي | إعداد المعلمة / نجلاء فريج البلوي"
+        };
+
+        const rolePasswords = {
+            "principal": "12345",
+            "counselor": "5555",
+            "schoolAffairs": "1111",
+            "eduAffairs": "2222",
+            "studentAffairs": "3333",
+            "evalSpecialist": "4444"
+        };
+
+        let activeUserRole = localStorage.getItem('dawood_user_role') || null;
+        let loggedTeacherName = localStorage.getItem('dawood_logged_teacher') || null;
+        let currentSection = 'teacherPerf';
+        let editingIndex = null;
+        let currentImagesList = [];
+        let progImagesList = [];
+        let teacherEvImagesList = [];
+        let selectedTeacherIndexForEval = null;
+        let targetCriteriaIdForTeacherEv = null;
+
+        const GOOGLE_DRIVE_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbzlcaDZs4GC-Cr4Ik1-V-DY7WDP5mhePH4u8lwoBngrWCG3RFJzEXbbhIqM7OchQCrIwQ/exec';
+
+        let teachersPerformanceData = [
+            {
+                name: "أ. أمل محمد الغامدي",
+                pin: "1001",
+                evaluations: { 1: true, 2: true, 3: false, 4: true, 5: true, 6: true, 7: true, 8: false, 9: true, 10: true, 11: true },
+                evidences: {}
+            },
+            {
+                name: "أ. خلود عبد الله العمري",
+                pin: "1002",
+                evaluations: { 1: true, 2: true, 3: true, 4: true, 5: true, 6: true, 7: false, 8: true, 9: true, 10: true, 11: false },
+                evidences: {}
+            },
+            {
+                name: "أ. فاطمة سعيد الأحمدي",
+                pin: "1003",
+                evaluations: { 1: true, 2: true, 3: true, 4: true, 5: true, 6: true, 7: true, 8: true, 9: true, 10: true, 11: true },
+                evidences: {}
+            }
+        ];
+
+        const evaluationCriteriaList = [
+            { id: 1, title: "أداء الواجبات الوظيفية", weight: "%10", examples: "المشاركة الفاعلة في المناسبات الوطنية - تعزيز قيم المواطنة والانتماء لدى الطالبات" },
+            { id: 2, title: "التفاعل مع المجتمع المهني", weight: "%10", examples: "المشاركة الإيجابية في مجتمعات التعلم المهنية - تبادل الزيارات الصفية الناجحة" },
+            { id: 3, title: "التفاعل مع أولياء الأمور", weight: "%10", examples: "التواصل المستمر مع أولياء الأمور بالتنسيق مع الموجهة الطلابية لمتابعة مستوى الطالبات" },
+            { id: 4, title: "التنويع في استراتيجيات التدريس", weight: "%10", examples: "تطبيق استراتيجيات تعلم نشط متنوعة تناسب مستويات الطالبات وتراعي الفروق الفردية" },
+            { id: 5, title: "تحسين نتائج المتعلمات", weight: "%10", examples: "معالجة الفاقد التعليمي ووضع خطط علاجية وإثرائية للطالبات الضعيفات والمتفوقات" },
+            { id: 6, title: "إعداد وتنفيذ خطة التعلم", weight: "%10", examples: "توزيع المنهج بدقة وإعداد الدروس اليومية وتكليف الطالبات بالواجبات الهادفة" },
+            { id: 7, title: "توظيف تقنيات ووسائل التعلم", weight: "%10", examples: "دمج التقنية الحديثة والشاشات الذكية في التعليم وتصميم وسائل إيضاح مبتكرة" },
+            { id: 8, title: "تهيئة البيئة التعليمية", weight: "%5", examples: "توفير بيئة صفية محفزة وجاذبة ومراعاة التهيئة النفسية للطالبات" },
+            { id: 9, title: "الإدارة الصفية", weight: "%5", examples: "ضبط النظام داخل الفصل ومتابعة الحضور والغياب اليومي بدقة" },
+            { id: 10, title: "تحليل نتائج المتعلمات", weight: "%10", examples: "تحليل نتائج الاختبارات الفصلية وتحديد نقاط القوة ومواقع التحسين للطالبات" },
+            { id: 11, title: "تنوع أساليب التقويم", weight: "%10", examples: "استخدام اختبارات متنوعة ومشاريع أدائية ومهام تقويمية شاملة" }
+        ];
+
+        let records = [
+            { title: 'سجل الحضور والغياب اليومي للطالبات', category: 'شؤون الطالبات', date: '2026-06-06', status: 'محدث', images: [] },
+            { title: 'سجل الزيارات الفنية للمعلمات', category: 'الكادر التعليمي', date: '2026-06-05', status: 'قيد التحديث', images: [] },
+            { title: 'سجل التواصل والاتصال مع أولياء الأمور', category: 'خدمة المجتمع', date: '2026-06-04', status: 'نشط', images: [] },
+            { title: 'سجل تعاميم إدارة التعليم والتعاميم الوزارية', category: 'الشؤون الإدارية', date: '2026-06-01', status: 'محدث', images: [] }
+        ];
+
+        let principalRecordsData = [
+            { id: 1, title: '1. سجل الوثيقة التنظيمية وقواعد الإدارة المدرسية', category: 'سجلات المديرة', date: '2026-06-01', executed: true, images: [] },
+            { id: 2, title: '2. سجل الخطة التشغيلية والاستراتيجية للمدرسة والاعتماد', category: 'سجلات المديرة', date: '2026-06-02', executed: true, images: [] },
+            { id: 3, title: '3. سجل تشكيل المجالس المدرسية ولجان التميز والتقويم', category: 'سجلات المديرة', date: '2026-06-03', executed: true, images: [] },
+            { id: 4, title: '4. سجل المتابعة الإدارية وتقويم الأداء الوظيفي للكادر التعليمي والإداري', category: 'سجلات المديرة', date: '2026-06-04', executed: true, images: [] },
+            { id: 5, title: '5. سجل الصلاحيات المفوضة للمساعدات والوكيلات واللجان', category: 'سجلات المديرة', date: '2026-06-05', executed: true, images: [] },
+            { id: 6, title: '6. سجل اجتماعات الهيئة الإدارية والتعليمية ومجالس المعلمات', category: 'سجلات المديرة', date: '2026-06-06', executed: false, images: [] },
+            { id: 7, title: '7. سجل الشراكة المجتمعية والتعاون مع أولياء الأمور والقطاع الخاص', category: 'سجلات المديرة', date: '2026-06-07', executed: false, images: [] },
+            { id: 8, title: '8. سجل الأمن والسلامة المدرسية وخطط الطوارئ والإخلاء', category: 'سجلات المديرة', date: '2026-06-08', executed: true, images: [] },
+            { id: 9, title: '9. سجل الميزانية التشغيلية للمدرسة ومتابعة الصرف والعهد', category: 'سجلات المديرة', date: '2026-06-09', executed: false, images: [] },
+            { id: 10, title: '10. تقارير الإنجاز الختامية وتقويم العام الدراسي السابق', category: 'سجلات المديرة', date: '2026-06-10', executed: true, images: [] }
+        ];
+
+        let professionalDevRecordsData = [
+            { id: 1, title: '1. خطة برامج التطوير المهني والورش التدريبية للمعلمات', category: 'التطوير المهني', date: '2026-06-01', executed: true, images: [] },
+            { id: 2, title: '2. سجل مجتمعات التعلم المهنية (PLCs) وتوثيق المجتمعات التخصصية', category: 'التطوير المهني', date: '2026-06-03', executed: true, images: [] },
+            { id: 3, title: '3. سجل حصص المشاهدة الصفية وتبادل الخبرات بين المعلمات', category: 'التطوير المهني', date: '2026-06-05', executed: true, images: [] },
+            { id: 4, title: '4. تقارير حضور الدورات التدريبية التخصصية والبرامج الوزارية', category: 'التطوير المهني', date: '2026-06-08', executed: false, images: [] },
+            { id: 5, title: '5. سجل حقائب التدريب الداخلي ونقل الخبرة (الدروس التطبيقية)', category: 'التطوير المهني', date: '2026-06-12', executed: false, images: [] }
+        ];
+
+        let schoolAffairsRecordsData = [
+            { id: 1, title: '1. خطة عمل وكيلة الشؤون المدرسية وتوزيع المهام الإشرافية', category: 'الشؤون المدرسية', date: '2026-06-01', executed: true, images: [] },
+            { id: 2, title: '2. سجل جاهزية مبنى المدرسة والمرافق وقاعات الدرس والساحات', category: 'الشؤون المدرسية', date: '2026-06-02', executed: true, images: [] },
+            { id: 3, title: '3. سجل العهد المدرسية والمستودعات والتجهيزات التقنية والمعامل', category: 'الشؤون المدرسية', date: '2026-06-04', executed: true, images: [] },
+            { id: 4, title: '4. خطة الصيانة الدورية والنظافة العامة والتعقيم اليومي', category: 'الشؤون المدرسية', date: '2026-06-06', executed: true, images: [] },
+            { id: 5, title: '5. سجل المقصف المدرسي ومتابعة الاشتراطات الصحية والغذائية', category: 'الشؤون المدرسية', date: '2026-06-08', executed: false, images: [] },
+            { id: 6, title: '6. سجل النقل المدرسي ومتابعة متعهد الحافلات وحضور الطالبات', category: 'الشؤون المدرسية', date: '2026-06-10', executed: true, images: [] },
+            { id: 7, title: '7. سجل الأمن والسلامة وتجهيزات طفايات الحريق ومخارج الطوارئ', category: 'الشؤون المدرسية', date: '2026-06-12', executed: false, images: [] }
+        ];
+
+        let eduAffairsRecordsData = [
+            { id: 1, title: '1. خطة عمل وكيلة الشؤون التعليمية وتنظيم الزمن المدرسي', category: 'الشؤون التعليمية', date: '2026-06-01', executed: true, images: [] },
+            { id: 2, title: '2. سجل توزيع الجداول الدراسية وأنصبة المعلمات والإشراف اليومي', category: 'الشؤون التعليمية', date: '2026-06-03', executed: true, images: [] },
+            { id: 3, title: '3. سجل متابعة تنفيذ الخطط الدراسية وتوزيع المناهج المقررة', category: 'الشؤون التعليمية', date: '2026-06-05', executed: true, images: [] },
+            { id: 4, title: '4. خطة معالجة الفاقد التعليمي وبرامج الدعم والتحصيل الدراسي', category: 'الشؤون التعليمية', date: '2026-06-07', executed: true, images: [] },
+            { id: 5, title: '5. سجل لجان الاختبارات الفصلية وأعمال الكنترول ورصد الدرجات', category: 'الشؤون التعليمية', date: '2026-06-10', executed: false, images: [] },
+            { id: 6, title: '6. سجل تحليل نتائج الاختبارات وتحسين مستويات المتعلمات', category: 'الشؤون التعليمية', date: '2026-06-13', executed: false, images: [] },
+            { id: 7, title: '7. سجل رعاية الطالبات المتفوقات والموهوبات في المواد الدراسية', category: 'الشؤون التعليمية', date: '2026-06-15', executed: true, images: [] }
+        ];
+
+        let counselorRecordsData = [
+            { id: 1, title: '1. خطة التوجيه والإرشاد الطلابي والبرامج الوقائية والعلاجية', category: 'التوجيه الطلابي', date: '2026-06-01', executed: true, images: [] },
+            { id: 2, title: '2. برنامج استقبال الطالبات المستجدات بالصف الأول وتهيئة البيئة', category: 'التوجيه الطلابي', date: '2026-06-02', executed: true, images: [] },
+            { id: 3, title: '3. سجل الإرشاد الفردي والجمعوي ودراسة الحالات السلوكية والنفسية', category: 'التوجيه الطلابي', date: '2026-06-04', executed: true, images: [] },
+            { id: 4, title: '4. سجل رعاية وتوجيه المتأخرات دراسياً وتفعيل لجان التوجيه', category: 'التوجيه الطلابي', date: '2026-06-07', executed: true, images: [] },
+            { id: 5, title: '5. سجل مجالس الأمهات وتفعيل الشراكة مع أولياء الأمور', category: 'التوجيه الطلابي', date: '2026-06-09', executed: false, images: [] },
+            { id: 6, title: '6. برامج الإرشاد المهني والتوعوي وخصائص النمو', category: 'التوجيه الطلابي', date: '2026-06-12', executed: false, images: [] }
+        ];
+
+        let studentAffairsRecordsData = [
+            { id: 1, title: '1. خطة عمل وكيلة شؤون الطالبات والانضباط المدرسي', category: 'شؤون الطالبات', date: '2026-06-01', executed: true, images: [] },
+            { id: 2, title: '2. سجل متابعة الحضور والغياب اليومي ورصد الاستئذان والتأخر', category: 'شؤون الطالبات', date: '2026-06-03', executed: true, images: [] },
+            { id: 3, title: '3. سجل تفعيل القواعد التنظيمية للسلوك والمواظبة', category: 'شؤون الطالبات', date: '2026-06-05', executed: true, images: [] },
+            { id: 4, title: '4. سجل الأنشطة الطلابية اللاصفية والإذاعة المدرسية والمناسبات', category: 'شؤون الطالبات', date: '2026-06-08', executed: true, images: [] },
+            { id: 5, title: '5. سجل تنظيم المقصف المدرسي ومتابعة النظام بالساحات والفسح', category: 'شؤون الطالبات', date: '2026-06-11', executed: false, images: [] },
+            { id: 6, title: '6. سجل الرحلات المدرسية والزيارات التعليمية والترفيهية', category: 'شؤون الطالبات', date: '2026-06-14', executed: false, images: [] }
+        ];
+
+        let evalSpecialistRecordsData = [
+            { id: 1, title: '1. سجل الخطة التشغيلية لأخصائية التقويم المدرسي والاعتماد', category: 'التقويم المدرسي', date: '2026-06-01', executed: true, images: [] },
+            { id: 2, title: '2. أدوات تقويم الأداء المدرسي ومعايير التقويم الذاتي', category: 'التقويم المدرسي', date: '2026-06-03', executed: true, images: [] },
+            { id: 3, title: '3. سجل توثيق الشواهد والأدلة لمجالات التقويم المدرسي', category: 'التقويم المدرسي', date: '2026-06-06', executed: true, images: [] },
+            { id: 4, title: '4. تقارير استطلاعات الرأي للأسرة والهيئة التعليمية والإدارية', category: 'التقويم المدرسي', date: '2026-06-09', executed: true, images: [] },
+            { id: 5, title: '5. خطط تحسين مؤشرات الأداء بناءً على نتائج التقويم الذاتي', category: 'التقويم المدرسي', date: '2026-06-12', executed: false, images: [] }
+        ];
+
+        let teacherPerfRecordsData = [
+            { id: 1, title: '1. خطة الزيارات الصفية والتبادلية الإشرافية للمعلمات بالمدرسة', category: 'الأداء الوظيفي', date: '2026-06-01', executed: true, images: [] },
+            { id: 2, title: '2. توثيق نماذج زيارات المكاتب الإشرافية والتقويم التكويني', category: 'الأداء الوظيفي', date: '2026-06-05', executed: true, images: [] },
+            { id: 3, title: '3. تقارير الإنماء المهني وحضور الدورات التخصصية', category: 'الأداء الوظيفي', date: '2026-06-10', executed: false, images: [] }
+        ];
+
+        let programs = [
+            { title: 'برنامج رعاية وتفوق الطالبات الموهوبات', category: 'الطالبات المتفوقات', date: '2026-06-10', status: 'قيد التنفيذ', images: [] },
+            { title: 'مبادرة تعزيز القيم الوطنية والانتماء (وطني أمانة)', category: 'الأنشطة والتربية الوطنية', date: '2026-06-05', status: 'مكتمل ومنجز', images: [] },
+            { title: 'برنامج الدعم العلاجي للفاقد التعليمي بمادة الرياضيات', category: 'التحصيل الدراسي', date: '2026-06-08', status: 'قيد التنفيذ', images: [] }
+        ];
+
+        let readinessData = {
+            general: { title: "خطة الاستعداد والتهيئة العامة", tasks: [
+                { desc: "رفع تقرير تفصيلي عن جاهزية المدرسة وبداية العام.", date: '2026-06-01', images: [] },
+                { desc: "اعتماد تشكيل اللجان المدرسية وتوزيع الجداول.", date: '2026-06-02', images: [] }
+            ] },
+            admission: { title: "لجنة القبول والتسجيل", tasks: [
+                { desc: "يبدأ قبول الطالبات المستجدات بالصف الأول الثانوي.", date: '2026-06-01', images: [] },
+                { desc: "تدقيق الملفات واكتمال المستندات الصحية والقبول.", date: '2026-06-03', images: [] }
+            ] },
+            schedule: { title: "لجنة الجدول المدرسي", tasks: [
+                { desc: "مراعاة العدل والأنصبة النظامية بين المعلمات.", date: '2026-06-01', images: [] },
+                { desc: "إصدار الجداول المدرسية وتوزيع الإشراف اليومي.", date: '2026-06-04', images: [] }
+            ] },
+            books: { title: "لجنة الكتب المدرسية", tasks: [
+                { desc: "تعبئة الاحتياج من المقررات الدراسية عبر نظام نور.", date: '2026-06-01', images: [] },
+                { desc: "استلام الكتب وترتيبها في المستودع وتشكيل لجان التوزيع.", date: '2026-06-05', images: [] }
+            ] },
+            maintenance: { title: "لجنة الصيانة والنظافة", tasks: [
+                { desc: "فحص وصيانة شبكات الكهرباء والتكييف ودورات المياه.", date: '2026-06-01', images: [] },
+                { desc: "عقد اجتماع مع متعهد النظافة والتأكد من توفير الأدوات.", date: '2026-06-04', images: [] }
+            ] },
+            transport: { title: "لجنة النقل المدرسي", tasks: [
+                { desc: "تعيين منسقة للنقل المدرسي وتحديث بيانات الحافلات.", date: '2026-06-01', images: [] },
+                { desc: "تسجيل الطالبات المستفيدات من خدمة النقل المدرسي.", date: '2026-06-06', images: [] }
+            ] },
+            safety: { title: "لجنة الأمن والسلامة", tasks: [
+                { desc: "التأكد من جاهزية طفايات الحريق ومخارج الأزمات والطوارئ.", date: '2026-06-01', images: [] },
+                { desc: "إعداد خطة الإخلاء الوهمي وتوزيع اللوحات الإرشادية.", date: '2026-06-07', images: [] }
+            ] },
+            environment: { title: "لجنة البيئة المدرسية", tasks: [
+                { desc: "تنظيف وتعقيم الفصول الدراسية والممرات والساحات.", date: '2026-06-01', images: [] },
+                { desc: "تزيين البيئة الصفية وتهيئة لوحات الإعلانات المدرسية.", date: '2026-06-08', images: [] }
+            ] }
+        };
+
+        function toggleLoginFields() {
+            const type = document.getElementById('loginTypeSelect').value;
+            if(type === 'admin') {
+                document.getElementById('adminLoginBox').classList.remove('hidden');
+                document.getElementById('teacherLoginBox').classList.add('hidden');
+            } else {
+                document.getElementById('adminLoginBox').classList.add('hidden');
+                document.getElementById('teacherLoginBox').classList.remove('hidden');
+                populateTeacherLoginSelect();
+            }
+        }
+
+        function populateTeacherLoginSelect() {
+            const select = document.getElementById('teacherLoginSelect');
+            let html = '<option value="">-- اختاري اسمك من القائمة --</option>';
+            teachersPerformanceData.forEach((t, idx) => {
+                html += `<option value="${idx}">👩‍🏫 ${t.name}</option>`;
+            });
+            select.innerHTML = html;
+        }
+
+        function executeLogin() {
+            const type = document.getElementById('loginTypeSelect').value;
+            const errorMsg = document.getElementById('loginErrorMsg');
+
+            if(type === 'admin') {
+                const role = document.getElementById('userRoleSelect').value;
+                const password = document.getElementById('rolePasswordInput').value;
+                if (rolePasswords[role] === password) {
+                    activeUserRole = role;
+                    loggedTeacherName = null;
+                    localStorage.setItem('dawood_user_role', activeUserRole);
+                    localStorage.removeItem('dawood_logged_teacher');
+                    document.getElementById('loginModal').classList.add('hidden');
+                    errorMsg.classList.add('hidden');
+                    applyRoleRestrictions();
+                } else {
+                    errorMsg.classList.remove('hidden');
+                }
+            } else {
+                const teacherIdx = document.getElementById('teacherLoginSelect').value;
+                const pin = document.getElementById('teacherPinInput').value.trim();
+                if(teacherIdx === "") {
+                    errorMsg.innerText = "الرجاء اختيار اسم المعلمة";
+                    errorMsg.classList.remove('hidden');
+                    return;
+                }
+                const teacher = teachersPerformanceData[parseInt(teacherIdx)];
+                if(teacher.pin === pin) {
+                    activeUserRole = 'teacher';
+                    loggedTeacherName = teacher.name;
+                    localStorage.setItem('dawood_user_role', 'teacher');
+                    localStorage.setItem('dawood_logged_teacher', loggedTeacherName);
+                    document.getElementById('loginModal').classList.add('hidden');
+                    errorMsg.classList.add('hidden');
+                    applyRoleRestrictions();
+                } else {
+                    errorMsg.innerText = `الرقم السري غير صحيح، يرجى مراجعة إدارة المدرسة لمعرفة رقمك السري.`;
+                    errorMsg.classList.remove('hidden');
+                }
+            }
+        }
+
+        function logoutSession() {
+            localStorage.removeItem('dawood_user_role');
+            localStorage.removeItem('dawood_logged_teacher');
+            location.reload();
+        }
+
+        function applyRoleRestrictions() {
+            const roleNames = {
+                'principal': '👑 مديرة المدرسة',
+                'counselor': '🤝 الموجهة الطلابية',
+                'schoolAffairs': '🏫 وكيلة الشؤون المدرسية',
+                'eduAffairs': '📚 وكيلة الشؤون التعليمية',
+                'studentAffairs': '🎓 وكيلة شؤون الطالبات',
+                'evalSpecialist': '🧭 أخصائية التقويم المدرسي',
+                'teacher': `👩‍🏫 المعلمة: ${loggedTeacherName}`
+            };
+
+            document.getElementById('loggedUserLabel').innerText = roleNames[activeUserRole] || 'مديرة المدرسة';
+
+            const restrictedItems = document.querySelectorAll('.role-restricted');
+            restrictedItems.forEach(item => {
+                if (activeUserRole === 'teacher') {
+                    if(item.id === 'tab-teacherPerf' || item.getAttribute('data-allowed').includes('principal')) {
+                        item.style.display = "";
+                    } else {
+                        item.style.display = "none";
+                    }
+                } else {
+                    const allowedRoles = item.getAttribute('data-allowed').split(',');
+                    if (activeUserRole === 'principal' || allowedRoles.includes(activeUserRole)) {
+                        item.style.display = "";
+                    } else {
+                        item.style.display = "none";
+                    }
+                }
+            });
+
+            if (activeUserRole === 'teacher') {
+                switchSection('teacherPerf');
+            } else if (activeUserRole === 'counselor') switchSection('counselor');
+            else if (activeUserRole === 'schoolAffairs') switchSection('schoolAffairs');
+            else if (activeUserRole === 'eduAffairs') switchSection('eduAffairs');
+            else if (activeUserRole === 'studentAffairs') switchSection('studentAffairs');
+            else if (activeUserRole === 'evalSpecialist') switchSection('evalSpecialist');
+            else switchSection('teacherPerf');
+        }
+
+        function saveDataLocally() {
+            const dataToSave = { principalRecordsData, professionalDevRecordsData, teacherPerfRecordsData, schoolAffairsRecordsData, eduAffairsRecordsData, counselorRecordsData, studentAffairsRecordsData, evalSpecialistRecordsData, records, programs, readinessData, teachersPerformanceData };
+            try {
+                localStorage.setItem('dawood_school_system_backup', JSON.stringify(dataToSave));
+                
+                fetch(GOOGLE_DRIVE_WEB_APP_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    body: JSON.stringify({
+                        type: 'FULL_BACKUP',
+                        data: dataToSave
+                    })
+                }).catch(e => {});
+            } catch(e) {}
+        }
+
+        function resetDefaultData() {
+            if(confirm('هل أنت متأكدة من إعادة ضبط البيانات واستعادة السجلات الافتراضية؟ سيتم تحديث الصفحة.')) {
+                localStorage.removeItem('dawood_school_system_backup');
+                location.reload();
+            }
+        }
+
+        function importDataFile(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const parsed = JSON.parse(e.target.result);
+                    localStorage.setItem('dawood_school_system_backup', JSON.stringify(parsed));
+                    alert('✅ تمت استعادة النسخة الاحتياجية بنجاح! سيتم تحديث الصفحة الآن.');
+                    location.reload();
+                } catch(err) {
+                    alert('❌ حدث خطأ أثناء قراءة الملف.');
+                }
+            };
+            reader.readAsText(file);
+        }
+
+        async function syncDataFromCloud() {
+            try {
+                const response = await fetch(GOOGLE_DRIVE_WEB_APP_URL);
+                const cloudData = await response.json();
+                if (cloudData && cloudData.dataToSave) {
+                    const parsed = cloudData.dataToSave;
+                    applyLoadedData(parsed);
+                    localStorage.setItem('dawood_school_system_backup', JSON.stringify(parsed));
+                }
+            } catch(e) {}
+        }
+
+        async function manualSyncFromCloud() {
+            const btn = event.target;
+            const oldText = btn.innerText;
+            btn.innerText = '⏳ جاري التحديث...';
+            try {
+                await syncDataFromCloud();
+                renderTable();
+                alert('✅ تم تحديث وجلب أحدث البيانات والشواهد من السحابة بنجاح!');
+            } catch(e) {
+                alert('❌ تعذر الاتصال بالسحابة، تحقق من الإنترنت.');
+            }
+            btn.innerText = oldText;
+        }
+
+        function applyLoadedData(parsed) {
+            if(parsed.teachersPerformanceData) {
+                teachersPerformanceData = parsed.teachersPerformanceData.map(t => {
+                    if(!t.pin || t.pin.toString().trim() === "") {
+                        t.pin = Math.floor(1000 + Math.random() * 9000).toString();
+                    }
+                    if(!t.evidences) t.evidences = {};
+                    return t;
+                });
+            }
+            const fixImages = (arr) => arr.map(i => {
+                if(i.image && (!i.images || i.images.length === 0)) i.images = [{ src: i.image, date: 'تاريخ غير مدون' }];
+                if(!i.images) i.images = [];
+                else {
+                    i.images = i.images.map(img => typeof img === 'string' ? { src: img, date: 'تاريخ غير مدون' } : img);
+                }
+                if(i.executed === undefined) i.executed = true;
+                if(i.status === undefined) i.status = 'قيد التنفيذ';
+                return i;
+            });
+            if(parsed.principalRecordsData) principalRecordsData = fixImages(parsed.principalRecordsData);
+            if(parsed.professionalDevRecordsData) professionalDevRecordsData = fixImages(parsed.professionalDevRecordsData);
+            if(parsed.teacherPerfRecordsData) teacherPerfRecordsData = fixImages(parsed.teacherPerfRecordsData);
+            if(parsed.schoolAffairsRecordsData) schoolAffairsRecordsData = fixImages(parsed.schoolAffairsRecordsData);
+            if(parsed.eduAffairsRecordsData) eduAffairsRecordsData = fixImages(parsed.eduAffairsRecordsData);
+            if(parsed.counselorRecordsData) counselorRecordsData = fixImages(parsed.counselorRecordsData);
+            if(parsed.studentAffairsRecordsData) studentAffairsRecordsData = fixImages(parsed.studentAffairsRecordsData);
+            if(parsed.evalSpecialistRecordsData) evalSpecialistRecordsData = fixImages(parsed.evalSpecialistRecordsData);
+            if(parsed.records && parsed.records.length > 0) records = fixImages(parsed.records);
+            if(parsed.programs) programs = fixImages(parsed.programs);
+            if(parsed.readinessData) {
+                for(let key in parsed.readinessData) {
+                    if(parsed.readinessData[key].tasks) {
+                        parsed.readinessData[key].tasks = fixImages(parsed.readinessData[key].tasks);
+                    }
+                }
+                readinessData = parsed.readinessData;
+            }
+        }
+
+        async function loadDataLocally() {
+            document.getElementById('schoolHeaderLabel').innerText = "وزارة التعليم | إدارة التعليم بالمدينة المنورة | " + schoolConfig.schoolName;
+            document.getElementById('principalHeaderLabel').innerText = schoolConfig.developerName;
+
+            const saved = localStorage.getItem('dawood_school_system_backup');
+            if (saved) {
+                try {
+                    applyLoadedData(JSON.parse(saved));
+                } catch(e) {}
+            }
+
+            teachersPerformanceData.forEach(t => {
+                if(!t.pin || t.pin.toString().trim() === "") {
+                    t.pin = Math.floor(1000 + Math.random() * 9000).toString();
+                }
+            });
+
+            if (activeUserRole) {
+                document.getElementById('loginModal').classList.add('hidden');
+                applyRoleRestrictions();
+            } else {
+                document.getElementById('loginModal').classList.remove('hidden');
+                document.getElementById('loginModal').classList.add('flex');
+            }
+
+            await syncDataFromCloud();
+            renderTable();
+
+            const savedBg = localStorage.getItem('school_bg_pattern');
+            if(savedBg) changeBackground(savedBg);
+        }
+
+        function exportDataFile() {
+            const dataToSave = { principalRecordsData, professionalDevRecordsData, teacherPerfRecordsData, schoolAffairsRecordsData, eduAffairsRecordsData, counselorRecordsData, studentAffairsRecordsData, evalSpecialistRecordsData, records, programs, readinessData, teachersPerformanceData };
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(dataToSave, null, 2));
+            const downloadAnchor = document.createElement('a');
+            downloadAnchor.setAttribute("href", dataStr);
+            downloadAnchor.setAttribute("download", "Secondary_12_School_Backup_2026.json");
+            document.body.appendChild(downloadAnchor);
+            downloadAnchor.click();
+            downloadAnchor.remove();
+        }
+
+        function changeBackground(type) {
+            const body = document.getElementById('pageBody');
+            body.classList.remove('bg-theme-blue', 'bg-theme-emerald', 'bg-theme-amber');
+            ['blue', 'emerald', 'amber'].forEach(t => {
+                const btn = document.getElementById(`bgBtn-${t}`);
+                if(t === type) {
+                    let activeColorClass = type === 'emerald' ? 'bg-emerald-600' : (type === 'amber' ? 'bg-amber-600' : 'bg-blue-600');
+                    btn.className = `px-3 py-1.5 rounded-xl text-xs font-medium ${activeColorClass} text-white transition shadow-sm`;
+                } else {
+                    btn.className = "px-3 py-1.5 rounded-xl text-xs font-medium bg-white/40 text-gray-700 hover:bg-white/70 transition border border-white/30";
+                }
+            });
+            if(type === 'blue') body.classList.add('bg-theme-blue');
+            else if(type === 'emerald') body.classList.add('bg-theme-emerald');
+            else if(type === 'amber') body.classList.add('bg-theme-amber');
+            localStorage.setItem('school_bg_pattern', type);
+        }
+
+        function printReport() {
+            const currentTableHTML = document.getElementById('tableContainer').innerHTML;
+            document.getElementById('printBodyContent').innerHTML = currentTableHTML;
+            window.print();
+        }
+
+        function updateDashboardStats() {
+            document.getElementById('stat-programs').innerText = programs.length;
+            document.getElementById('stat-records').innerText = records.length + principalRecordsData.length + professionalDevRecordsData.length;
+            document.getElementById('stat-active').innerText = programs.filter(p => p.status === 'قيد التنفيذ' || p.status === 'نشط' || p.status === 'مخطط له').length;
+        }
+
+        function openGlobalSearchModal() {
+            document.getElementById('globalSearchInput').value = '';
+            document.getElementById('globalSearchResults').innerHTML = '<p class="text-center text-xs text-gray-500 py-8">ابداي الكتابة في حقل البحث بالأعلى للعثور على العناصر مباشرة...</p>';
+            document.getElementById('globalSearchModal').classList.remove('hidden');
+            document.getElementById('globalSearchModal').classList.add('flex');
+            setTimeout(() => document.getElementById('globalSearchInput').focus(), 100);
+        }
+
+        function closeGlobalSearchModal() {
+            document.getElementById('globalSearchModal').classList.add('hidden');
+            document.getElementById('globalSearchModal').classList.remove('flex');
+        }
+
+        function performGlobalSearch() {
+            const query = document.getElementById('globalSearchInput').value.trim().toLowerCase();
+            const resultsContainer = document.getElementById('globalSearchResults');
+
+            if (!query) {
+                resultsContainer.innerHTML = '<p class="text-center text-xs text-gray-500 py-8">ابداي الكتابة في حقل البحث بالأعلى للعثور على العناصر مباشرة...</p>';
+                return;
+            }
+
+            let allItems = [];
+            const addToList = (arr, secKey, secName) => {
+                arr.forEach((item, idx) => {
+                    const titleText = item.title || item.desc || '';
+                    const catText = item.category || secName;
+                    if(titleText.toLowerCase().includes(query) || catText.toLowerCase().includes(query)) {
+                        allItems.push({ title: titleText, category: catText, date: item.date || 'غير مدون', sectionKey: secKey, sectionName: secName, index: idx });
+                    }
+                });
+            };
+
+            addToList(principalRecordsData, 'principal', '👑 سجلات المديرة');
+            addToList(professionalDevRecordsData, 'professionalDev', '💡 التطوير المهني');
+            addToList(teacherPerfRecordsData, 'teacherPerfRecords', '⭐ سجلات الزيارات والأداء');
+            addToList(schoolAffairsRecordsData, 'schoolAffairs', '🏫 الشؤون المدرسية');
+            addToList(eduAffairsRecordsData, 'eduAffairs', '📚 الشؤون التعليمية');
+            addToList(counselorRecordsData, 'counselor', '🤝 التوجيه الطلابي');
+            addToList(studentAffairsRecordsData, 'studentAffairs', '🎓 شؤون الطالبات');
+            addToList(evalSpecialistRecordsData, 'evalSpecialist', '🧭 التقويم المدرسي');
+            addToList(records, 'records', '📂 السجلات العامة');
+            addToList(programs, 'programs', '🎯 البرامج المنفذة');
+
+            if(allItems.length === 0) {
+                resultsContainer.innerHTML = `<p class="text-center text-xs text-red-600 py-8 font-bold">❌ لا توجد نتائج مطابقة للبحث "${query}"</p>`;
+                return;
+            }
+
+            let html = `<p class="text-xs text-gray-600 mb-2 font-bold">تم العثور على (${allItems.length}) نتيجة:</p>`;
+            allItems.forEach(res => {
+                html += `
+                    <div onclick="jumpToSearchResult('${res.sectionKey}')" class="p-3 bg-white/50 hover:bg-white/90 border border-white/60 hover:border-indigo-200 rounded-xl cursor-pointer transition flex justify-between items-center gap-2">
+                        <div>
+                            <span class="text-[11px] bg-indigo-100/80 text-indigo-800 px-2 py-0.5 rounded-full font-bold inline-block mb-1">${res.sectionName}</span>
+                            <h4 class="text-xs sm:text-sm font-bold text-gray-900">${res.title}</h4>
+                            <span class="text-[10px] text-gray-500 mt-0.5 block font-mono">📅 التاريخ: ${res.date}</span>
+                        </div>
+                        <span class="text-xs text-indigo-600 font-bold whitespace-nowrap">انتقال القسم ←</span>
+                    </div>
+                `;
+            });
+
+            resultsContainer.innerHTML = html;
+        }
+
+        function jumpToSearchResult(sectionKey) {
+            closeGlobalSearchModal();
+            switchSection(sectionKey);
+        }
+
+        const ALL_DROPDOWN_IDS = ['dropdownMenu', 'dropdownTeacherPerf', 'dropdownSchoolAffairs', 'dropdownEduAffairs', 'dropdownCounselor', 'dropdownStudentAffairs', 'dropdownEvalSpecialist'];
+
+        function toggleDropdown(menuId) {
+            ALL_DROPDOWN_IDS.forEach(id => {
+                if (id !== menuId) {
+                    const el = document.getElementById(id);
+                    if(el) el.classList.add('hidden');
+                }
+            });
+            const targetEl = document.getElementById(menuId);
+            if(targetEl) targetEl.classList.toggle('hidden');
+        }
+
+        function toggleExecutionStatus(section, index) {
+            let item;
+            if(section === 'principal') item = principalRecordsData[index];
+            else if(section === 'professionalDev') item = professionalDevRecordsData[index];
+            else if(section === 'teacherPerfRecords') item = teacherPerfRecordsData[index];
+            else if(section === 'schoolAffairs') item = schoolAffairsRecordsData[index];
+            else if(section === 'eduAffairs') item = eduAffairsRecordsData[index];
+            else if(section === 'counselor') item = counselorRecordsData[index];
+            else if(section === 'studentAffairs') item = studentAffairsRecordsData[index];
+            else if(section === 'evalSpecialist') item = evalSpecialistRecordsData[index];
+
+            item.executed = !item.executed;
+            saveDataLocally();
+            renderTable();
+        }
+
+        function toggleProgramStatus(index) {
+            const statuses = ['قيد التنفيذ', 'مكتمل ومنجز', 'مخطط له'];
+            let current = programs[index].status || 'قيد التنفيذ';
+            let nextIdx = (statuses.indexOf(current) + 1) % statuses.length;
+            programs[index].status = statuses[nextIdx];
+            saveDataLocally();
+            renderTable();
+        }
+
+        function addSingleTeacher() {
+            const nameInput = document.getElementById('newTeacherName');
+            const name = nameInput.value.trim();
+            if(!name) { alert('الرجاء إدخال اسم المعلمة'); return; }
+            const randomPin = Math.floor(1000 + Math.random() * 9000).toString();
+            teachersPerformanceData.push({
+                name: name,
+                pin: randomPin,
+                evaluations: { 1: false, 2: false, 3: false, 4: false, 5: false, 6: false, 7: false, 8: false, 9: false, 10: false, 11: false },
+                evidences: {}
+            });
+            nameInput.value = '';
+            saveDataLocally();
+            renderTable();
+            alert(`✅ تمت إضافة المعلمة بنجاح. الرقم السري المولد لها هو: ${randomPin}`);
+        }
+
+        function addBatchTeachers() {
+            const batchInput = document.getElementById('batchTeachersInput');
+            const text = batchInput.value.trim();
+            if(!text) { alert('الرجاء كتابة أسماء المعلمات (كل معلمة في سطر)'); return; }
+            const names = text.split('\n');
+            let addedCount = 0;
+            names.forEach(n => {
+                const cleanName = n.trim();
+                if(cleanName) {
+                    const randomPin = Math.floor(1000 + Math.random() * 9000).toString();
+                    teachersPerformanceData.push({
+                        name: cleanName,
+                        pin: randomPin,
+                        evaluations: { 1: false, 2: false, 3: false, 4: false, 5: false, 6: false, 7: false, 8: false, 9: false, 10: false, 11: false },
+                        evidences: {}
+                    });
+                    addedCount++;
+                }
+            });
+            batchInput.value = '';
+            saveDataLocally();
+            renderTable();
+            alert(`✅ تمت إضافة (${addedCount}) معلمة وتوليد أرقام سرية لهن بنجاح! يمكنك مراجعتها من كشف الأرقام السرية.`);
+        }
+
+        function onTeacherDropdownChange(selectElement) {
+            const val = selectElement.value;
+            if(val === "") {
+                selectedTeacherIndexForEval = null;
+            } else {
+                selectedTeacherIndexForEval = parseInt(val);
+            }
+            renderTable();
+        }
+
+        function toggleTeacherEvalForSelected(criteriaId) {
+            if(selectedTeacherIndexForEval === null) return;
+            const currentVal = teachersPerformanceData[selectedTeacherIndexForEval].evaluations[criteriaId];
+            teachersPerformanceData[selectedTeacherIndexForEval].evaluations[criteriaId] = !currentVal;
+            saveDataLocally();
+            renderTable();
+        }
+
+        function finishTeacherEval() {
+            selectedTeacherIndexForEval = null;
+            renderTable();
+        }
+
+        function deleteSelectedTeacher() {
+            if(selectedTeacherIndexForEval === null) return;
+            if(teachersPerformanceData.length <= 1) {
+                alert('لا يمكن حذف جميع المعلمات، يجب إبقاء معلمة واحدة على الأقل.');
+                return;
+            }
+            if(confirm(`هل أنت متأكدة من حذف المعلمة: ${teachersPerformanceData[selectedTeacherIndexForEval].name}؟`)) {
+                teachersPerformanceData.splice(selectedTeacherIndexForEval, 1);
+                selectedTeacherIndexForEval = null;
+                saveDataLocally();
+                renderTable();
+            }
+        }
+
+        function openTeacherEvidenceModal(critId) {
+            targetCriteriaIdForTeacherEv = critId;
+            const crit = evaluationCriteriaList.find(c => c.id === critId);
+            document.getElementById('teacherModalCriteriaDesc').innerText = `البند (${crit.id}): ${crit.title} - ${crit.examples}`;
+            teacherEvImagesList = [];
+            document.getElementById('teacherImagePreviewContainer').classList.add('hidden');
+            document.getElementById('teacherImagePreviewContainer').innerHTML = '';
+            document.getElementById('teacherFileName').innerText = 'لم يتم اختيار صور';
+            document.getElementById('teacherEvidenceModal').classList.remove('hidden');
+            document.getElementById('teacherEvidenceModal').classList.add('flex');
+        }
+
+        function closeTeacherEvidenceModal() {
+            document.getElementById('teacherEvidenceModal').classList.add('hidden');
+            document.getElementById('teacherEvidenceModal').classList.remove('flex');
+        }
+
+        function compressImage(base64Str, maxWidth = 800, quality = 0.7) {
+            return new Promise((resolve) => {
+                const img = new Image();
+                img.src = base64Str;
+                img.onload = () => {
+                    const canvas = document.createElement('canvas');
+                    let width = img.width;
+                    let height = img.height;
+                    if (width > maxWidth) {
+                        height = Math.round((height * maxWidth) / width);
+                        width = maxWidth;
+                    }
+                    canvas.width = width;
+                    canvas.height = height;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0, width, height);
+                    resolve(canvas.toDataURL('image/jpeg', quality));
+                };
+                img.onerror = () => resolve(base64Str);
+            });
+        }
+
+        async function previewTeacherImages(event) {
+            const files = event.target.files;
+            if (files && files.length > 0) {
+                document.getElementById('teacherFileName').innerText = `جاري المعالجة (${files.length}) صور...`;
+                for (let file of files) {
+                    const reader = new FileReader();
+                    reader.onload = async function(e) {
+                        const compressed = await compressImage(e.target.result);
+                        const now = new Date();
+                        const formattedDate = now.toLocaleDateString('ar-SA') + ' | ' + now.toLocaleTimeString('ar-SA', {hour: '2-digit', minute:'2-digit'});
+                        
+                        teacherEvImagesList.push({
+                            src: compressed,
+                            date: formattedDate
+                        });
+                        renderThumbnails(teacherEvImagesList, 'teacherImagePreviewContainer', 'teacherFileName');
+                        document.getElementById('teacherFileName').innerText = `تمت إضافة (${teacherEvImagesList.length}) شاهد بنجاح`;
+                    }
+                    reader.readAsDataURL(file);
+                }
+            }
+        }
+
+        async function saveTeacherEvidence(e) {
+            e.preventDefault();
+            const btn = document.getElementById('saveTeacherEvBtn');
+            btn.innerText = 'جاري الحفظ سحابياً...';
+
+            const teacherObj = teachersPerformanceData.find(t => t.name === loggedTeacherName);
+            if(teacherObj) {
+                if(!teacherObj.evidences) teacherObj.evidences = {};
+                if(!teacherObj.evidences[targetCriteriaIdForTeacherEv]) teacherObj.evidences[targetCriteriaIdForTeacherEv] = [];
+                
+                teacherObj.evidences[targetCriteriaIdForTeacherEv].push(...teacherEvImagesList);
+                saveDataLocally();
+            }
+
+            setTimeout(() => {
+                btn.innerText = 'حفظ الشاهد سحابياً';
+                closeTeacherEvidenceModal();
+                renderTable();
+            }, 500);
+        }
+
+        function renderTable() {
+            const container = document.getElementById('tableContainer');
+            let html = '';
+
+            if (currentSection === 'teacherPinsTable') {
+                html = `
+                    <div class="mb-4 bg-orange-100/50 p-4 rounded-xl border border-orange-200">
+                        <h2 class="text-base font-bold text-orange-900 mb-1">🔑 كشف الأرقام السرية الخاصة بمعلمات المدرسة</h2>
+                        <p class="text-xs text-orange-800">هذه الأرقام السرية المولدة تلقائياً لكل معلمة لتمكينها من الدخول ورفع شواهدها الخاصة:</p>
+                    </div>
+                    <div class="overflow-x-auto w-full">
+                        <table class="w-full text-right border-collapse">
+                            <thead>
+                                <tr class="bg-white/40 text-gray-700 text-xs sm:text-sm border-b border-gray-200/50">
+                                    <th class="p-3 text-center w-16">م</th>
+                                    <th class="p-3">اسم المعلمة</th>
+                                    <th class="p-3 text-center">الرقم السري الخاص بالدخول (PIN)</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-200/40 text-xs sm:text-sm">
+                `;
+                teachersPerformanceData.forEach((t, idx) => {
+                    html += `
+                        <tr class="hover:bg-white/40 transition">
+                            <td class="p-3 text-center font-bold text-gray-600">${idx + 1}</td>
+                            <td class="p-3 font-bold text-gray-900">${t.name}</td>
+                            <td class="p-3 text-center font-mono font-bold text-orange-700 bg-orange-50/50 text-base">${t.pin}</td>
+                        </tr>
+                    `;
+                });
+                html += `</tbody></table></div>`;
+
+            } else if (currentSection === 'teacherPerf') {
+                let activeTeacher = null;
+                if (activeUserRole === 'teacher') {
+                    activeTeacher = teachersPerformanceData.find(t => t.name === loggedTeacherName);
+                } else if (selectedTeacherIndexForEval !== null) {
+                    activeTeacher = teachersPerformanceData[selectedTeacherIndexForEval];
+                }
+
+                html = `
+                    <div class="mb-6 bg-orange-100/50 backdrop-blur-sm p-3 sm:p-4 rounded-xl border border-orange-200/50">
+                        <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-4">
+                            <div>
+                                <h2 class="text-sm sm:text-lg font-bold text-orange-900">⭐ متابعة وتقييم أداء المعلمات (${schoolConfig.schoolName})</h2>
+                                <p class="text-[11px] sm:text-xs text-orange-800 mt-1">
+                                    ${activeUserRole === 'teacher' ? `أهلاً بك يا معلمتنا الفاضلة (${loggedTeacherName}) - قومي برفع شواهدك تحت بنود التقييم أدناه` : `${schoolConfig.developerName} - تقييم تحقق عناصر الأداء والتقدير العام`}
+                                </p>
+                            </div>
+                            <div class="flex gap-2 w-full md:w-auto no-print">
+                                <button onclick="switchSection('teacherPerfRecords')" class="bg-orange-600 hover:bg-orange-700 text-white px-3 py-1.5 rounded-xl text-xs font-medium transition shadow-sm">📋 سجلات الزيارات والإنماء المهني</button>
+                                ${activeUserRole !== 'teacher' ? '<button onclick="switchSection(\'teacherPinsTable\')" class="bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-1.5 rounded-xl text-xs font-medium transition shadow-sm">🔑 الأرقام السرية للمعلمات</button>' : ''}
+                            </div>
+                        </div>
+
+                        ${activeUserRole !== 'teacher' ? `
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-3 bg-white/50 backdrop-blur-sm p-3 sm:p-4 rounded-xl border border-orange-200/50 shadow-sm no-print mb-4">
+                                <div class="flex flex-col gap-1.5">
+                                    <label class="text-xs font-bold text-gray-700">👩‍🏫 اختاري المعلمة للتقييم ومتابعة شواهدها:</label>
+                                    <select onchange="onTeacherDropdownChange(this)" class="border border-orange-300 rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-orange-500 bg-white/80 font-bold text-orange-900">
+                                        <option value="" ${selectedTeacherIndexForEval === null ? 'selected' : ''}>-- انقري هنا لاختيار المعلمة --</option>
+                                        ${teachersPerformanceData.map((t, idx) => `<option value="${idx}" ${idx === selectedTeacherIndexForEval ? 'selected' : ''}>📌 ${t.name}</option>`).join('')}
+                                    </select>
+                                </div>
+
+                                <div class="flex flex-col gap-1.5">
+                                    <label class="text-xs font-bold text-gray-700">👩 إضافة معلمة جديدة (يولد لها رقم سري):</label>
+                                    <div class="flex gap-2">
+                                        <input type="text" id="newTeacherName" placeholder="اسم المعلمة..." class="flex-1 border border-orange-300/60 bg-white/60 rounded-xl px-3 py-1.5 text-xs focus:outline-none focus:border-orange-500">
+                                        <button onclick="addSingleTeacher()" class="bg-orange-600 hover:bg-orange-700 text-white px-3 py-1.5 rounded-xl text-xs font-medium transition shadow-sm">إضافة</button>
+                                    </div>
+                                </div>
+
+                                <div class="flex flex-col gap-1.5">
+                                    <label class="text-xs font-bold text-gray-700">👥 إضافة معلمات دفعة واحدة:</label>
+                                    <div class="flex gap-2">
+                                        <textarea id="batchTeachersInput" placeholder="كل اسم في سطر..." rows="1" class="flex-1 border border-orange-300/60 bg-white/60 rounded-xl px-3 py-1.5 text-xs focus:outline-none focus:border-orange-500"></textarea>
+                                        <button onclick="addBatchTeachers()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-1.5 rounded-xl text-xs font-medium transition shadow-sm">إضافة</button>
+                                    </div>
+                                </div>
+                            </div>
+                        ` : ''}
+                    </div>
+                `;
+
+                if (!activeTeacher) {
+                    html += `
+                        <div class="bg-white/40 backdrop-blur-md rounded-2xl border border-white/40 p-12 text-center shadow-sm">
+                            <span class="text-4xl mb-2 inline-block">📌</span>
+                            <h3 class="text-base font-bold text-gray-800">الرجاء اختيار معلمة من القائمة بالأعلى</h3>
+                            <p class="text-xs text-gray-600 mt-1">انقري على خانة الاختيار لعرض بنود التقييم وشواهد المعلمة المطلوبة.</p>
+                        </div>
+                    `;
+                } else {
+                    let score = 0;
+                    evaluationCriteriaList.forEach(c => {
+                        if(activeTeacher.evaluations[c.id]) {
+                            score += parseFloat(c.weight.replace('%', ''));
+                        }
+                    });
+                    let grade = score >= 90 ? 'ممتاز (5)' : (score >= 80 ? 'جيد جداً (4)' : (score >= 70 ? 'جيد (3)' : 'مرضي / يحتاج تحسين'));
+
+                    html += `
+                        <div class="bg-white/60 backdrop-blur-md rounded-2xl border border-white/40 shadow-sm overflow-hidden mb-4">
+                            <div class="bg-gradient-to-r from-orange-600 to-amber-600 text-white p-4 flex flex-col sm:flex-row justify-between items-center gap-3">
+                                <div class="flex items-center gap-2">
+                                    <span class="text-2xl">👩‍🏫</span>
+                                    <div>
+                                        <h3 class="text-base font-bold">${activeUserRole === 'teacher' ? 'لوحة شواهد المعلمة: ' : 'المعلمة المختارة: '} ${activeTeacher.name}</h3>
+                                        <p class="text-xs text-orange-100">${activeUserRole === 'teacher' ? 'يمكنك رفع صور الشواهد تحت كل بند من بنود التقييم أدناه' : `الرقم السري الخاص بالمعلمة: ${activeTeacher.pin}`}</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center gap-3 flex-wrap justify-center">
+                                    <div class="flex items-center gap-3 bg-white/10 backdrop-blur-md px-4 py-2 rounded-xl border border-white/20">
+                                        <div class="text-center">
+                                            <span class="text-[10px] text-orange-200 block">النتيجة التراكمية</span>
+                                            <span class="text-lg font-bold">${score}%</span>
+                                        </div>
+                                        <div class="h-6 w-[1px] bg-white/30"></div>
+                                        <div class="text-center">
+                                            <span class="text-[10px] text-orange-200 block">التقدير العام</span>
+                                            <span class="text-xs font-bold">${grade}</span>
+                                        </div>
+                                    </div>
+                                    ${activeUserRole !== 'teacher' ? `
+                                        <div class="flex gap-2 no-print">
+                                            <button onclick="finishTeacherEval()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-2 rounded-xl text-xs font-bold transition shadow-sm">✓ إنهاء وإغلاق</button>
+                                            <button onclick="deleteSelectedTeacher()" class="bg-red-600 hover:bg-red-700 text-white px-2.5 py-2 rounded-xl text-xs font-bold transition shadow-sm" title="حذف المعلمة الحالية">🗑️ حذف</button>
+                                        </div>
+                                    ` : ''}
+                                </div>
+                            </div>
+
+                            <div class="overflow-x-auto w-full">
+                                <table class="w-full text-right border-collapse">
+                                    <thead>
+                                        <tr class="bg-white/40 text-gray-700 text-xs sm:text-sm border-b border-gray-200/50">
+                                            <th class="p-3 text-center w-12 border-l border-gray-200/50">م</th>
+                                            <th class="p-3 border-l border-gray-200/50 min-w-[200px]">عناصر وجدارات التقييم</th>
+                                            <th class="p-3 text-center w-20 border-l border-gray-200/50">الوزن</th>
+                                            <th class="p-3 border-l border-gray-200/50 min-w-[250px]">أمثلة على تحقق العنصر</th>
+                                            <th class="p-3 border-l border-gray-200/50 text-center w-36">شواهد المعلمة المرفوعة</th>
+                                            ${activeUserRole !== 'teacher' ? '<th class="p-3 text-center w-32 no-print">حالة الاعتماد</th>' : ''}
+                                        </tr>
+                                    </thead>
+                                    <tbody class="divide-y divide-gray-200/40 text-xs sm:text-sm">
+                    `;
+
+                    evaluationCriteriaList.forEach((crit) => {
+                        const isChecked = activeTeacher.evaluations[crit.id] || false;
+                        const evList = (activeTeacher.evidences && activeTeacher.evidences[crit.id]) ? activeTeacher.evidences[crit.id] : [];
+                        
+                        let evBadge = evList.length > 0 ? 
+                            `<button onclick="viewTeacherEvidenceModalImages('${activeTeacher.name}', ${crit.id})" class="text-emerald-800 font-bold text-xs bg-emerald-100 hover:bg-emerald-200 px-2.5 py-1 rounded-full border border-emerald-300 transition">🖼️ (${evList.length}) شاهد</button>` : 
+                            `<span class="text-gray-400 text-xs">بدون شاهد</span>`;
+
+                        let uploadBtn = `
+                            <button onclick="openTeacherEvidenceModal(${crit.id})" class="mt-1 bg-orange-600 hover:bg-orange-700 text-white px-2 py-1 rounded-lg text-[11px] font-bold transition block mx-auto">
+                                ➕ رفع شواهد البند
+                            </button>
+                        `;
+
+                        let adminEvalCell = activeUserRole !== 'teacher' ? `
+                            <td class="p-3 text-center no-print">
+                                <button onclick="toggleTeacherEvalForSelected(${crit.id})" class="px-3 py-1.5 rounded-xl font-bold text-xs transition shadow-sm ${isChecked ? 'bg-emerald-100 text-emerald-800 border border-emerald-300' : 'bg-white/60 text-gray-500 hover:bg-white border border-gray-300/60'}">
+                                    ${isChecked ? '✓ معتمد' : 'غير معتمد'}
+                                </button>
+                            </td>
+                        ` : '';
+
+                        html += `
+                            <tr class="hover:bg-white/40 transition">
+                                <td class="p-3 text-center border-l border-gray-200/40 font-bold text-gray-600">${crit.id}</td>
+                                <td class="p-3 border-l border-gray-200/40 font-bold text-gray-900">${crit.title}</td>
+                                <td class="p-3 text-center border-l border-gray-200/40 font-mono font-bold text-orange-700">${crit.weight}</td>
+                                <td class="p-3 border-l border-gray-200/40 text-gray-700 text-[11px] sm:text-xs leading-relaxed">${crit.examples}</td>
+                                <td class="p-3 text-center border-l border-gray-200/40">
+                                    ${evBadge}
+                                    ${uploadBtn}
+                                </td>
+                                ${adminEvalCell}
+                            </tr>
+                        `;
+                    });
+
+                    html += `</tbody></table></div></div>`;
+                }
+
+            } else if (currentSection === 'principal' || currentSection === 'professionalDev' || currentSection === 'teacherPerfRecords' || currentSection === 'schoolAffairs' || currentSection === 'eduAffairs' || currentSection === 'counselor' || currentSection === 'studentAffairs' || currentSection === 'evalSpecialist') {
+                let data, titleText, themeColor, subtitleText;
+                if (currentSection === 'principal') {
+                    data = principalRecordsData; titleText = "سجلات وملفات مديرة المدرسة"; themeColor = "indigo"; subtitleText = `${schoolConfig.schoolName} - ${schoolConfig.developerName}`;
+                } else if (currentSection === 'professionalDev') {
+                    data = professionalDevRecordsData; titleText = "سجلات وبرامج التطوير المهني"; themeColor = "indigo"; subtitleText = `${schoolConfig.schoolName} - التطوير المهني والورش التدريبية`;
+                } else if (currentSection === 'teacherPerfRecords') {
+                    data = teacherPerfRecordsData; titleText = "سجلات الزيارات الصفية والتبادلية وتقارير أداء المعلمات"; themeColor = "orange"; subtitleText = `${schoolConfig.schoolName} - زيارات المعلمات والإنماء المهني`;
+                } else if (currentSection === 'schoolAffairs') {
+                    data = schoolAffairsRecordsData; titleText = "سجلات وملفات وكيلة الشؤون المدرسية"; themeColor = "teal"; subtitleText = `${schoolConfig.schoolName} - متابعة شؤون الطالبات والخدمات`;
+                } else if (currentSection === 'eduAffairs') {
+                    data = eduAffairsRecordsData; titleText = "سجلات وملفات وكيلة الشؤون التعليمية"; themeColor = "purple"; subtitleText = `${schoolConfig.schoolName} - الشؤون التعليمية والاختبارات`;
+                } else if (currentSection === 'counselor') {
+                    data = counselorRecordsData; titleText = "سجلات وبرامج الموجهة الطلابية"; themeColor = "amber"; subtitleText = `${schoolConfig.schoolName} - التوجيه والإرشاد الطلابي`;
+                } else if (currentSection === 'studentAffairs') {
+                    data = studentAffairsRecordsData; titleText = "سجلات وكيلة شؤون الطالبات"; themeColor = "rose"; subtitleText = `${schoolConfig.schoolName} - متابعة انضباط وشؤون الطالبات`;
+                } else {
+                    data = evalSpecialistRecordsData; titleText = "سجلات أخصائية التقويم المدرسي"; themeColor = "cyan"; subtitleText = `${schoolConfig.schoolName} - الدليل الاسترشادي لأخصائية التقويم المدرسي`;
+                }
+
+                html = `
+                    <div class="mb-4 bg-${themeColor}-100/40 backdrop-blur-sm p-3 sm:p-4 rounded-xl border border-${themeColor}-200/50 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
+                        <div>
+                            <h2 class="text-sm sm:text-lg font-bold text-${themeColor}-900">${titleText}</h2>
+                            <p class="text-[11px] sm:text-xs text-${themeColor}-800 mt-1">${subtitleText} (انقري على اسم السجل لتعديله وإضافة الشواهد)</p>
+                        </div>
+                        <div class="flex flex-wrap gap-2 w-full sm:w-auto">
+                            ${currentSection === 'teacherPerfRecords' ? '<button onclick="switchSection(\'teacherPerf\')" class="no-print bg-orange-600 hover:bg-orange-700 text-white px-3 py-1.5 rounded-xl text-xs font-medium transition shadow-sm">⭐ العودة لتقييم المعلمات</button>' : ''}
+                            <button onclick="openSectionModal('${currentSection}')" class="no-print w-full sm:w-auto bg-${themeColor}-600 hover:bg-${themeColor}-700 text-white px-3 py-1.5 rounded-xl text-xs font-medium transition shadow-sm flex items-center justify-center gap-1">
+                                <span>➕</span>
+                                <span>إضافة سجل جديد لهذا القسم</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="overflow-x-auto w-full">
+                    <table class="w-full text-right border-collapse min-w-[600px]">
+                        <thead>
+                            <tr class="border-b border-gray-200/50 text-gray-500 text-xs sm:text-sm">
+                                <th class="pb-3 w-12">رقم</th>
+                                <th class="pb-3">عنوان السجل أو الملف</th>
+                                <th class="pb-3">حالة التنفيذ</th>
+                                <th class="pb-3">تاريخ التنفيذ</th>
+                                <th class="pb-3">الشواهد والتقارير</th>
+                                <th class="pb-3 no-print">الإجراء</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-200/40 text-xs sm:text-sm">
+                `;
+
+                data.forEach((rec, index) => {
+                    const imgCount = (rec.images ? rec.images.length : (rec.image ? 1 : 0));
+                    let imgBadge = imgCount > 0 ? 
+                        `<button onclick="viewItemImages('${currentSection}', ${index})" class="text-emerald-800 font-bold text-xs bg-emerald-100/60 hover:bg-emerald-100 px-2.5 py-1 rounded-full border border-emerald-200 transition">🖼️ (${imgCount}) شواهد وتاريخ</button>` : 
+                        `<span class="text-gray-500 text-xs">بدون شاهد</span>`;
+
+                    let statusBtn = rec.executed ? 
+                        `<button onclick="toggleExecutionStatus('${currentSection}', ${index})" class="bg-emerald-100/80 text-emerald-800 border border-emerald-300 px-3 py-1 rounded-xl text-xs font-bold transition shadow-sm">نفذت ✓</button>` : 
+                        `<button onclick="toggleExecutionStatus('${currentSection}', ${index})" class="bg-white/60 text-gray-600 border border-gray-300 px-3 py-1 rounded-xl text-xs font-bold hover:bg-white transition">لم تنفذ ✕</button>`;
+                    
+                    html += `
+                        <tr class="hover:bg-white/40 transition">
+                            <td class="py-4 text-${themeColor}-700 font-bold">${rec.id || (index + 1)}</td>
+                            <td class="py-4 font-medium">
+                                <a href="javascript:void(0)" onclick="openModalForEdit('${currentSection}', ${index})" class="text-${themeColor}-800 hover:text-blue-700 underline font-bold cursor-pointer" title="انقري لإضافة وتعديل الشواهد">${rec.title}</a>
+                            </td>
+                            <td class="py-4">${statusBtn}</td>
+                            <td class="py-4 text-gray-800 font-semibold font-mono">${rec.date || '-'}</td>
+                            <td class="py-4">${imgBadge}</td>
+                            <td class="py-4 no-print"><button onclick="openModalForEdit('${currentSection}', ${index})" class="text-blue-700 hover:underline font-medium">تعديل الشواهد</button></td>
+                        </tr>
+                    `;
+                });
+                html += `</tbody></table></div>`;
+
+            } else if (currentSection === 'records' || currentSection === 'programs') {
+                if (currentSection === 'programs') {
+                    programs.sort((a, b) => new Date(b.date) - new Date(a.date));
+                }
+                let data = currentSection === 'records' ? records : programs;
+                let title = currentSection === 'records' ? 'سجلات المدرسة العامة والأرشيف' : 'البرامج التعليمية والأنشطة المدرسية المنفذة';
+                
+                html = `
+                    <div class="mb-4 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
+                        <h2 class="text-sm sm:text-lg font-bold text-gray-800">${title} (انقري على اسم السجل لتعديله وإضافة الشواهد)</h2>
+                        <div class="flex gap-2 w-full sm:w-auto">
+                            ${currentSection === 'records' ? '<button onclick="openModal()" class="no-print w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white px-3 py-1.5 rounded-lg text-xs font-medium transition shadow-sm">+ إضافة سجل عام جديد</button>' : ''}
+                            ${currentSection === 'programs' ? '<button onclick="openAddProgramModal()" class="no-print w-full sm:w-auto bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-1.5 rounded-lg text-xs font-medium transition shadow-sm">+ إضافة برنامج جديد</button>' : ''}
+                        </div>
+                    </div>
+                    <div class="overflow-x-auto w-full">
+                    <table class="w-full text-right border-collapse min-w-[600px]">
+                        <thead>
+                            <tr class="border-b border-gray-200/50 text-gray-500 text-xs sm:text-sm">
+                                <th class="pb-3">${currentSection === 'records' ? 'عنوان السجل' : 'اسم البرنامج أو النشاط'}</th>
+                                <th class="pb-3">${currentSection === 'records' ? 'القسم' : 'الفئة المستهدفة / المجال'}</th>
+                                <th class="pb-3">تاريخ التنفيذ</th>
+                                ${currentSection === 'programs' ? '<th class="pb-3 text-center">حالة التنفيذ</th>' : ''}
+                                <th class="pb-3">الشواهد والتقارير</th>
+                                <th class="pb-3 no-print">الإجراء</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-200/40 text-xs sm:text-sm">
+                `;
+
+                data.forEach((item, index) => {
+                    const imgCount = (item.images ? item.images.length : (item.image ? 1 : 0));
+                    let imgBadge = imgCount > 0 ? 
+                        `<button onclick="viewItemImages('${currentSection}', ${index})" class="text-emerald-800 font-bold text-xs bg-emerald-100/60 hover:bg-emerald-100 px-2.5 py-1 rounded-full border border-emerald-200 transition">🖼️ (${imgCount}) شواهد وتاريخ</button>` : 
+                        `<span class="text-gray-500 text-xs">بدون شاهد</span>`;
+
+                    let statusClass = "bg-amber-100/80 text-amber-800 border-amber-300";
+                    let currentProgStatus = item.status || 'قيد التنفيذ';
+                    if(currentProgStatus === 'مكتمل ومنجز') statusClass = "bg-emerald-100/80 text-emerald-800 border-emerald-300";
+                    else if(currentProgStatus === 'مخطط له') statusClass = "bg-blue-100/80 text-blue-800 border-blue-300";
+
+                    let progStatusCell = currentSection === 'programs' ? `
+                        <td class="py-4 text-center">
+                            <button onclick="toggleProgramStatus(${index})" class="px-3 py-1 rounded-xl text-xs font-bold border transition shadow-sm ${statusClass}" title="انقري لتغيير حالة البرنامج">
+                                ${currentProgStatus} 🔄
+                            </button>
+                        </td>
+                    ` : '';
+
+                    html += `
+                        <tr class="hover:bg-white/40 transition">
+                            <td class="py-4 font-medium">
+                                <a href="javascript:void(0)" onclick="openModalForEdit('${currentSection}', ${index})" class="text-blue-700 hover:text-indigo-800 underline font-bold cursor-pointer" title="انقري لإضافة وتعديل الشواهد">${item.title}</a>
+                            </td>
+                            <td class="py-4 text-gray-600">${item.category}</td>
+                            <td class="py-4 text-gray-800 font-semibold font-mono">${item.date || '-'}</td>
+                            ${progStatusCell}
+                            <td class="py-4">${imgBadge}</td>
+                            <td class="py-4 no-print flex items-center gap-2 sm:gap-3">
+                                <button onclick="openModalForEdit('${currentSection}', ${index})" class="text-blue-700 hover:underline font-medium">تعديل الشواهد</button>
+                                ${currentSection === 'records' ? `<button onclick="deleteRecord(${index})" class="text-red-700 hover:text-red-900 text-xs font-bold px-2 py-1 rounded bg-red-100/60 hover:bg-red-100 transition">🗑️ حذف</button>` : ''}
+                                ${currentSection === 'programs' ? `<button onclick="deleteProgram(${index})" class="text-red-700 hover:text-red-900 text-xs font-bold px-2 py-1 rounded bg-red-100/60 hover:bg-red-100 transition">🗑️ حذف</button>` : ''}
+                            </td>
+                        </tr>
+                    `;
+                });
+                html += `</tbody></table></div>`;
+
+            } else {
+                let secData = readinessData[currentSection];
+                html = `
+                    <h2 class="text-sm sm:text-xl font-bold text-blue-900 mb-4 pb-2 border-b border-gray-200/50">${secData.title} (انقري على المهام لإضافة الشواهد وتاريخ الإضافة)</h2>
+                    <div class="overflow-x-auto w-full">
+                    <table class="w-full text-right border-collapse min-w-[600px]">
+                        <thead>
+                            <tr class="border-b border-gray-200/50 text-gray-500 text-xs sm:text-sm">
+                                <th class="pb-3 w-12">م</th>
+                                <th class="pb-3">عنصر الخطة الإجرائية والمهام</th>
+                                <th class="pb-3">تاريخ التنفيذ</th>
+                                <th class="pb-3 text-center">الشواهد والتقارير</th>
+                                <th class="pb-3 w-32 text-center no-print">الإجراء</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-200/40 text-xs sm:text-sm">
+                `;
+
+                secData.tasks.forEach((task, index) => {
+                    const imgCount = (task.images ? task.images.length : (task.image ? 1 : 0));
+                    let imgBadge = imgCount > 0 ? 
+                        `<button onclick="viewItemImages('${currentSection}', ${index})" class="text-emerald-800 font-bold text-xs bg-emerald-100/60 hover:bg-emerald-100 px-2.5 py-1 rounded-full border border-emerald-200 transition">🖼️ (${imgCount}) شواهد وتاريخ</button>` : 
+                        `<span class="text-gray-500 text-xs">بدون شاهد</span>`;
+
+                    html += `
+                        <tr class="hover:bg-white/40 transition">
+                            <td class="py-4 text-gray-500 font-bold">${index + 1}</td>
+                            <td class="py-4 font-medium">
+                                <a href="javascript:void(0)" onclick="openModalForEdit('${currentSection}', ${index})" class="text-blue-700 hover:text-indigo-800 underline font-bold cursor-pointer" title="انقري لإضافة وتعديل الشواهد">${task.desc}</a>
+                            </td>
+                            <td class="py-4 text-gray-800 font-semibold font-mono">${task.date || '-'}</td>
+                            <td class="py-4 text-center">${imgBadge}</td>
+                            <td class="py-4 text-center no-print">
+                                <button onclick="openModalForEdit('${currentSection}', ${index})" class="px-3 py-1 rounded-full text-xs font-bold bg-blue-100/80 text-blue-800 hover:bg-blue-200 transition">
+                                    رفع/تعديل الشواهد
+                                </button>
+                            </td>
+                        </tr>
+                    `;
+                });
+                html += `</tbody></table></div>`;
+            }
+
+            container.innerHTML = html;
+            updateDashboardStats();
+        }
+
+        function viewTeacherEvidenceModalImages(teacherName, critId) {
+            const teacherObj = teachersPerformanceData.find(t => t.name === teacherName);
+            const imgs = (teacherObj && teacherObj.evidences && teacherObj.evidences[critId]) ? teacherObj.evidences[critId] : [];
+            const grid = document.getElementById('modalImagesGrid');
+            
+            if(imgs.length === 0) {
+                grid.innerHTML = `<p class="text-sm text-gray-500 col-span-2 text-center py-6">لا توجد شواهد مرفقة لهذا البند بعد.</p>`;
+            } else {
+                let html = '';
+                imgs.forEach((imgObj, i) => {
+                    html += `
+                        <div class="bg-white/70 backdrop-blur-sm border border-white/40 rounded-2xl p-3 shadow-sm flex flex-col justify-between">
+                            <div class="relative h-44 bg-white/40 rounded-xl overflow-hidden border border-white/30 mb-2 flex items-center justify-center cursor-pointer group" ondblclick="openImageFullWindow('${imgObj.src}')">
+                                <img src="${imgObj.src}" class="h-full w-full object-cover">
+                                <span class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition flex items-center justify-center text-white text-xs font-bold">🔍 انقري مرتين للتكبير</span>
+                            </div>
+                            <div class="text-right">
+                                <span class="text-xs font-bold text-orange-700 block mb-0.5">شاهد المعلمة (${i + 1})</span>
+                                <span class="text-[11px] text-gray-600 font-mono">📅 ${imgObj.date}</span>
+                            </div>
+                        </div>
+                    `;
+                });
+                grid.innerHTML = html;
+            }
+            document.getElementById('viewImageModal').classList.remove('hidden');
+            document.getElementById('viewImageModal').classList.add('flex');
+        }
+
+        function switchSection(section) {
+            currentSection = section;
+            ALL_DROPDOWN_IDS.forEach(id => {
+                const el = document.getElementById(id);
+                if(el) el.classList.add('hidden');
+            });
+            const globalModal = document.getElementById('globalSearchModal');
+            if(globalModal) {
+                globalModal.classList.add('hidden');
+                globalModal.classList.remove('flex');
+            }
+
+            const tabButtons = ['professionalDev', 'records', 'programs', 'general', 'admission', 'schedule', 'books', 'maintenance', 'transport', 'safety', 'environment'];
+            tabButtons.forEach(tabKey => {
+                const btn = document.getElementById(`tab-${tabKey}`);
+                if(btn) {
+                    if(tabKey === 'programs') {
+                        btn.className = "p-2.5 sm:p-3 rounded-xl text-center transition bg-blue-600 hover:bg-blue-700 text-white shadow-md flex flex-col items-center justify-center gap-1 role-restricted font-bold";
+                    } else if(tabKey === 'records') {
+                        btn.className = "p-2.5 sm:p-3 rounded-xl text-center transition bg-emerald-600 hover:bg-emerald-700 text-white shadow-md flex flex-col items-center justify-center gap-1 role-restricted font-bold";
+                    } else {
+                        btn.className = "p-2.5 sm:p-3 rounded-xl text-center transition bg-white/70 hover:bg-white text-gray-800 shadow-sm flex flex-col items-center justify-center gap-1 role-restricted border border-white/50 font-bold";
+                    }
+                }
+            });
+            
+            const activeBtn = document.getElementById(`tab-${section}`);
+            if(activeBtn) {
+                activeBtn.className = "p-2.5 sm:p-3 rounded-xl text-center transition bg-blue-600 text-white shadow-md flex flex-col items-center justify-center gap-1 font-bold";
+            }
+
+            renderTable();
+        }
+
+        function openModal() {
+            editingIndex = null;
+            currentImagesList = [];
+            document.getElementById('modalTitle').innerText = 'إضافة سجل عام جديد';
+            document.getElementById('inputTitle').value = '';
+            document.getElementById('inputCategory').value = '';
+            document.getElementById('inputDate').value = new Date().toISOString().split('T')[0];
+            document.getElementById('imagePreviewContainer').classList.add('hidden');
+            document.getElementById('imagePreviewContainer').innerHTML = '';
+            document.getElementById('fileName').innerText = 'لم يتم اختيار صور';
+            document.getElementById('itemModal').classList.remove('hidden');
+            document.getElementById('itemModal').classList.add('flex');
+        }
+
+        function openAddProgramModal() {
+            document.getElementById('progTitle').value = '';
+            document.getElementById('progCategory').value = '';
+            document.getElementById('progDate').value = new Date().toISOString().split('T')[0];
+            document.getElementById('progStatus').value = 'قيد التنفيذ';
+            progImagesList = [];
+            document.getElementById('progImagePreviewContainer').classList.add('hidden');
+            document.getElementById('progImagePreviewContainer').innerHTML = '';
+            document.getElementById('progFileName').innerText = 'لم يتم اختيار صور';
+            document.getElementById('programModal').classList.remove('hidden');
+            document.getElementById('programModal').classList.add('flex');
+        }
+
+        function closeAddProgramModal() {
+            document.getElementById('programModal').classList.add('hidden');
+            document.getElementById('programModal').classList.remove('flex');
+        }
+
+        function openModalForEdit(section, index) {
+            editingIndex = index;
+            document.getElementById('modalTitle').innerText = 'تعديل السجل وإدارة الشواهد';
+            let item;
+            if(section === 'principal') item = principalRecordsData[index];
+            else if(section === 'professionalDev') item = professionalDevRecordsData[index];
+            else if(section === 'teacherPerfRecords') item = teacherPerfRecordsData[index];
+            else if(section === 'schoolAffairs') item = schoolAffairsRecordsData[index];
+            else if(section === 'eduAffairs') item = eduAffairsRecordsData[index];
+            else if(section === 'counselor') item = counselorRecordsData[index];
+            else if(section === 'studentAffairs') item = studentAffairsRecordsData[index];
+            else if(section === 'evalSpecialist') item = evalSpecialistRecordsData[index];
+            else if(section === 'records') item = records[index];
+            else if(section === 'programs') item = programs[index];
+            else item = readinessData[section].tasks[index];
+
+            document.getElementById('inputTitle').value = item.title || item.desc || '';
+            document.getElementById('inputCategory').value = item.category || 'عنصر إجرائي';
+            document.getElementById('inputDate').value = item.date || new Date().toISOString().split('T')[0];
+
+            currentImagesList = item.images ? [...item.images] : (item.image ? [{src: item.image, date: 'تاريخ غير مدون'}] : []);
+            renderThumbnails(currentImagesList, 'imagePreviewContainer', 'fileName');
+
+            document.getElementById('itemModal').classList.remove('hidden');
+            document.getElementById('itemModal').classList.add('flex');
+        }
+
+        async function previewImages(event) {
+            const files = event.target.files;
+            if (files && files.length > 0) {
+                document.getElementById('fileName').innerText = `جاري المعالجة (${files.length}) صور...`;
+                for (let file of files) {
+                    const reader = new FileReader();
+                    reader.onload = async function(e) {
+                        const compressed = await compressImage(e.target.result);
+                        const now = new Date();
+                        const formattedDate = now.toLocaleDateString('ar-SA') + ' | ' + now.toLocaleTimeString('ar-SA', {hour: '2-digit', minute:'2-digit'});
+                        currentImagesList.push({ src: compressed, date: formattedDate });
+                        renderThumbnails(currentImagesList, 'imagePreviewContainer', 'fileName');
+                        document.getElementById('fileName').innerText = `تمت إضافة (${currentImagesList.length}) شاهد`;
+                    }
+                    reader.readAsDataURL(file);
+                }
+            }
+        }
+
+        async function previewProgImages(event) {
+            const files = event.target.files;
+            if (files && files.length > 0) {
+                document.getElementById('progFileName').innerText = `جاري المعالجة (${files.length}) صور...`;
+                for (let file of files) {
+                    const reader = new FileReader();
+                    reader.onload = async function(e) {
+                        const compressed = await compressImage(e.target.result);
+                        const now = new Date();
+                        const formattedDate = now.toLocaleDateString('ar-SA') + ' | ' + now.toLocaleTimeString('ar-SA', {hour: '2-digit', minute:'2-digit'});
+                        progImagesList.push({ src: compressed, date: formattedDate });
+                        renderThumbnails(progImagesList, 'progImagePreviewContainer', 'progFileName');
+                        document.getElementById('progFileName').innerText = `تمت إضافة (${progImagesList.length}) شاهد`;
+                    }
+                    reader.readAsDataURL(file);
+                }
+            }
+        }
+
+        function renderThumbnails(list, containerId, textId) {
+            const container = document.getElementById(containerId);
+            if(list.length === 0) {
+                container.classList.add('hidden');
+                container.innerHTML = '';
+                return;
+            }
+            container.classList.remove('hidden');
+            let html = '';
+            list.forEach((imgObj, idx) => {
+                let imgSrc = (typeof imgObj === 'object') ? imgObj.src : imgObj;
+                html += `
+                    <div class="relative h-20 bg-white/60 rounded-lg border border-white/40 overflow-hidden flex items-center justify-center">
+                        <img src="${imgSrc}" class="h-full w-full object-contain">
+                        <button type="button" onclick="removeImageAt('${containerId}', ${idx})" class="absolute top-1 left-1 bg-red-600 text-white rounded-full w-5 h-5 text-xs flex items-center justify-center shadow">✕</button>
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+        }
+
+        function removeImageAt(containerId, index) {
+            if(containerId === 'imagePreviewContainer') {
+                currentImagesList.splice(index, 1);
+                renderThumbnails(currentImagesList, 'imagePreviewContainer', 'fileName');
+            } else if(containerId === 'progImagePreviewContainer') {
+                progImagesList.splice(index, 1);
+                renderThumbnails(progImagesList, 'progImagePreviewContainer', 'progFileName');
+            } else if(containerId === 'teacherImagePreviewContainer') {
+                teacherEvImagesList.splice(index, 1);
+                renderThumbnails(teacherEvImagesList, 'teacherImagePreviewContainer', 'teacherFileName');
+            }
+        }
+
+        function closeModal() {
+            document.getElementById('itemModal').classList.add('hidden');
+            document.getElementById('itemModal').classList.remove('flex');
+        }
+
+        async function saveNewProgram(e) {
+            e.preventDefault();
+            const submitBtn = document.getElementById('saveProgBtnSubmit');
+            submitBtn.innerText = 'تم الحفظ 🚀';
+            const title = document.getElementById('progTitle').value;
+            const category = document.getElementById('progCategory').value;
+            const date = document.getElementById('progDate').value;
+            const status = document.getElementById('progStatus').value;
+
+            programs.unshift({ title, category, date, status, images: progImagesList });
+            saveDataLocally();
+            setTimeout(() => {
+                submitBtn.innerText = 'حفظ البرنامج';
+                closeAddProgramModal();
+                switchSection('programs');
+            }, 500);
+        }
+
+        async function saveItem(e) {
+            e.preventDefault();
+            const submitBtn = document.getElementById('saveBtnSubmit');
+            submitBtn.innerText = 'تم الحفظ 🚀';
+            const title = document.getElementById('inputTitle').value;
+            const category = document.getElementById('inputCategory').value || 'عام';
+            const date = document.getElementById('inputDate').value;
+
+            if(editingIndex !== null) {
+                if(currentSection === 'principal') { principalRecordsData[editingIndex].title = title; principalRecordsData[editingIndex].category = category; principalRecordsData[editingIndex].date = date; principalRecordsData[editingIndex].images = currentImagesList; }
+                else if(currentSection === 'professionalDev') { professionalDevRecordsData[editingIndex].title = title; professionalDevRecordsData[editingIndex].category = category; professionalDevRecordsData[editingIndex].date = date; professionalDevRecordsData[editingIndex].images = currentImagesList; }
+                else if(currentSection === 'teacherPerfRecords') { teacherPerfRecordsData[editingIndex].title = title; teacherPerfRecordsData[editingIndex].category = category; teacherPerfRecordsData[editingIndex].date = date; teacherPerfRecordsData[editingIndex].images = currentImagesList; }
+                else if(currentSection === 'schoolAffairs') { schoolAffairsRecordsData[editingIndex].title = title; schoolAffairsRecordsData[editingIndex].category = category; schoolAffairsRecordsData[editingIndex].date = date; schoolAffairsRecordsData[editingIndex].images = currentImagesList; }
+                else if(currentSection === 'eduAffairs') { eduAffairsRecordsData[editingIndex].title = title; eduAffairsRecordsData[editingIndex].category = category; eduAffairsRecordsData[editingIndex].date = date; eduAffairsRecordsData[editingIndex].images = currentImagesList; }
+                else if(currentSection === 'counselor') { counselorRecordsData[editingIndex].title = title; counselorRecordsData[editingIndex].category = category; counselorRecordsData[editingIndex].date = date; counselorRecordsData[editingIndex].images = currentImagesList; }
+                else if(currentSection === 'studentAffairs') { studentAffairsRecordsData[editingIndex].title = title; studentAffairsRecordsData[editingIndex].category = category; studentAffairsRecordsData[editingIndex].date = date; studentAffairsRecordsData[editingIndex].images = currentImagesList; }
+                else if(currentSection === 'evalSpecialist') { evalSpecialistRecordsData[editingIndex].title = title; evalSpecialistRecordsData[editingIndex].category = category; evalSpecialistRecordsData[editingIndex].date = date; evalSpecialistRecordsData[editingIndex].images = currentImagesList; }
+                else if(currentSection === 'records') { records[editingIndex].title = title; records[editingIndex].category = category; records[editingIndex].date = date; records[editingIndex].images = currentImagesList; }
+                else if(currentSection === 'programs') { programs[editingIndex].title = title; programs[editingIndex].category = category; programs[editingIndex].date = date; programs[editingIndex].images = currentImagesList; }
+                else { readinessData[currentSection].tasks[editingIndex].desc = title; readinessData[currentSection].tasks[editingIndex].date = date; readinessData[currentSection].tasks[editingIndex].images = currentImagesList; }
+            } else {
+                if(currentSection === 'principal') principalRecordsData.unshift({ id: principalRecordsData.length + 1, title, category, date, executed: true, images: currentImagesList });
+                else if(currentSection === 'professionalDev') professionalDevRecordsData.unshift({ id: professionalDevRecordsData.length + 1, title, category, date, executed: true, images: currentImagesList });
+                else if(currentSection === 'teacherPerfRecords') teacherPerfRecordsData.unshift({ id: teacherPerfRecordsData.length + 1, title, category, date, executed: true, images: currentImagesList });
+                else if(currentSection === 'schoolAffairs') schoolAffairsRecordsData.unshift({ id: schoolAffairsRecordsData.length + 1, title, category, date, executed: true, images: currentImagesList });
+                else if(currentSection === 'eduAffairs') eduAffairsRecordsData.unshift({ id: eduAffairsRecordsData.length + 1, title, category, date, executed: true, images: currentImagesList });
+                else if(currentSection === 'counselor') counselorRecordsData.unshift({ id: counselorRecordsData.length + 1, title, category, date, executed: true, images: currentImagesList });
+                else if(currentSection === 'studentAffairs') studentAffairsRecordsData.unshift({ id: studentAffairsRecordsData.length + 1, title, category, date, executed: true, images: currentImagesList });
+                else if(currentSection === 'evalSpecialist') evalSpecialistRecordsData.unshift({ id: evalSpecialistRecordsData.length + 1, title, category, date, executed: true, images: currentImagesList });
+                else if(currentSection === 'records') records.unshift({ title, category, date, status: 'محدث', images: currentImagesList });
+                else if(currentSection === 'programs') programs.unshift({ title, category, date, status: 'قيد التنفيذ', images: currentImagesList });
+                else { if(readinessData[currentSection]) readinessData[currentSection].tasks.push({ desc: title, date, status: 'نفذت ✓', images: currentImagesList }); }
+            }
+
+            saveDataLocally();
+            setTimeout(() => {
+                submitBtn.innerText = 'حفظ التغييرات';
+                closeModal();
+                renderTable();
+            }, 500);
+        }
+
+        loadDataLocally();
+    </script>
+</body>
+</html>
+
